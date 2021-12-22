@@ -1,7 +1,5 @@
 package com.obodnarchuk.model;
 
-import org.hibernate.annotations.Type;
-
 import javax.persistence.*;
 import java.util.Date;
 import java.util.Objects;
@@ -26,15 +24,15 @@ public class Employee {
     @Column(name = "Wynagrodzenie")
     private Integer salary;
 
-    @OneToOne(optional = false,cascade = CascadeType.ALL)
+    @OneToOne(optional = true,cascade = CascadeType.ALL)
     @JoinColumn(name = "Adres")
     private Address address;
 
-    @OneToOne(optional = false,cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
+    @OneToOne(optional = true,cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
     @JoinColumn(name = "Dzial")
     private Department department;
 
-    @OneToOne(optional = false,cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
+    @OneToOne(optional = true,cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
     @JoinColumn(name = "Pozycja")
     private Position position;
 

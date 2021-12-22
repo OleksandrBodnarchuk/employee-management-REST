@@ -12,7 +12,7 @@ public class Department {
     @Column(name = "Nazwa",length = 30)
     private String name;
 
-    @OneToOne(optional = false, cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
+    @OneToOne(optional = true, cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
     @JoinColumn(name = "Localizacja")
     private Address address;
 
