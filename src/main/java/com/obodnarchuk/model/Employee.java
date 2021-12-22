@@ -7,25 +7,36 @@ import java.util.Date;
 import java.util.Objects;
 
 @Entity
-@Table(name = "pracownicy")
+@Table(name = "Pracownicy")
 public class Employee {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "pracownik_id")
+    @Column(name = "Id")
     private long id;
-    @Column(name = "imie")
+    @Column(name = "Imie",length = 30)
     private String name;
-    @Column(name = "nazwisko")
+    @Column(name = "Nazwisko",length = 30)
     private String surname;
-    @Column(name = "email",unique = true)
+    @Column(name = "Email",unique = true,length = 80)
     private String email;
-    @Column(name = "telefon")
+    @Column(name = "Telefon")
     private long phone;
-    @Column(name = "data_zatrudnienia")
-    @Type(type = "date")
+    @Column(name = "Data_Zatrudnienia")
     private Date startDate;
-    @Column(name = "wynagrodzenie")
+    @Column(name = "Wynagrodzenie")
     private Integer salary;
+
+    @OneToOne(optional = false,cascade = CascadeType.ALL)
+    @JoinColumn(name = "Adres")
+    private Address address;
+
+    @OneToOne(optional = false,cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
+    @JoinColumn(name = "Dzial")
+    private Department department;
+
+    @OneToOne(optional = false,cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
+    @JoinColumn(name = "Pozycja")
+    private Position position;
 
     public Employee(){
 
@@ -41,10 +52,6 @@ public class Employee {
 
     public long getId() {
         return id;
-    }
-
-    public void setId(long id) {
-        this.id = id;
     }
 
     public String getName() {

@@ -1,7 +1,15 @@
 package com.obodnarchuk.model;
 
+import javax.persistence.*;
+
+@Entity
+@Table(name = "Stanowiska")
 public class Position {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "Id")
     private long id;
+    @Column(name = "Nazwa", length = 50)
     private String title;
 
     public Position() {

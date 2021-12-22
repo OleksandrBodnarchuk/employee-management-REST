@@ -1,8 +1,20 @@
 package com.obodnarchuk.model;
 
+import javax.persistence.*;
+
+@Entity
+@Table(name = "Dzialy")
 public class Department {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "Id")
     private long id;
+    @Column(name = "Nazwa",length = 30)
     private String name;
+
+    @OneToOne(optional = false, cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
+    @JoinColumn(name = "Localizacja")
+    private Address address;
 
     public Department() {
     }
