@@ -4,6 +4,8 @@ import com.obodnarchuk.model.Employee;
 import com.obodnarchuk.repository.EmployeeRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class EmployeeService implements IEmployeeService{
 
@@ -17,4 +19,11 @@ public class EmployeeService implements IEmployeeService{
     public Employee saveEmployee(Employee employee) {
         return repository.save(employee);
     }
+
+    @Override
+    public List<Employee> getAllEmployees() {
+        return repository.findAll();
+    }
+
+
 }
