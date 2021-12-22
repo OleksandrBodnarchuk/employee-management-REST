@@ -1,4 +1,4 @@
-package com.obodnarchuk.obodnarchuk;
+package com.obodnarchuk;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

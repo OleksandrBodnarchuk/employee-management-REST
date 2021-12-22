@@ -1,4 +1,4 @@
-package com.obodnarchuk.obodnarchuk;
+package com.obodnarchuk.app;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
