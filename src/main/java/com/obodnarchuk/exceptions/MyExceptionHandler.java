@@ -13,7 +13,7 @@ import java.util.List;
 public class MyExceptionHandler extends RuntimeException{
 
     private final String RECORD_NOT_FOUND ="RECORD_NOT_FOUND";
-    private final String INCORRECT_REQUEST="INCORRECT_REQUEST";;
+    private final String RECORD_ALREADY_EXISTS="RECORD_ALREADY_EXISTS";;
 
     @ExceptionHandler(RecordNotFoundException.class)
     public final ResponseEntity<ErrorResponse> handleUserNotFoundException
@@ -22,6 +22,16 @@ public class MyExceptionHandler extends RuntimeException{
         List<String> details = new ArrayList<>();
         details.add(ex.getLocalizedMessage());
         ErrorResponse error = new ErrorResponse(RECORD_NOT_FOUND, details);
+        return new ResponseEntity<>(error, HttpStatus.NOT_FOUND);
+    }
+
+    @ExceptionHandler(RecordExistsException.class)
+    public final ResponseEntity<ErrorResponse> handleUserNotFoundException
+            (RecordExistsException ex, WebRequest request)
+    {
+        List<String> details = new ArrayList<>();
+        details.add(ex.getLocalizedMessage());
+        ErrorResponse error = new ErrorResponse(RECORD_ALREADY_EXISTS, details);
         return new ResponseEntity<>(error, HttpStatus.NOT_FOUND);
     }
 

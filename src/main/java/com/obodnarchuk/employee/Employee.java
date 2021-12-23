@@ -37,7 +37,7 @@ public class Employee {
     private Department department;
 
     @OneToOne(optional = true,cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
-    @JoinColumn(name = "Pozycja")
+    @JoinColumn(name = "Stanowisko")
     private Position position;
 
     public Employee(){

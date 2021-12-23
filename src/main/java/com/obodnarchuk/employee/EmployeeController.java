@@ -5,7 +5,6 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.List;
@@ -30,10 +29,6 @@ public class EmployeeController {
         return new ResponseEntity<>(service.getEmployeeById(id), HttpStatus.OK);
     }
 
-    @GetMapping("/{id}/stanowiska")
-    public void updateEmployeePosition(@PathVariable("id")long id, HttpServletResponse response) throws IOException {
-        response.sendRedirect("/"+id+"/pozycje/");
-    }
 
     @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE,
             consumes = MediaType.APPLICATION_JSON_VALUE)
@@ -51,5 +46,11 @@ public class EmployeeController {
     public HttpStatus deleteEmployee(@PathVariable long id) {
         service.deleteEmployeeById(id);
         return HttpStatus.OK;
+    }
+
+    // Stanowiska
+    @GetMapping("/{id}/stanowiska")
+    public void updateEmployeePosition(@PathVariable("id") long id, HttpServletResponse response) throws IOException {
+        response.sendRedirect("/" + id + "/stanowiska/");
     }
 }
