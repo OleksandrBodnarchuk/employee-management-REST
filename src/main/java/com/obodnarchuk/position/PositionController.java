@@ -1,6 +1,7 @@
 package com.obodnarchuk.position;
 
 import com.obodnarchuk.employee.EmployeeService;
+import org.springframework.data.repository.query.Param;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -36,8 +37,9 @@ public class PositionController {
         return "updatePosition called";
     }
 
-    @DeleteMapping()
-    public String deletePosition() {
-        return "deletePosition called";
+    @DeleteMapping("stanowiska/{id}")
+    public HttpStatus deletePosition(@PathVariable("id")long id) {
+        positionService.deletePositionById(id);
+        return HttpStatus.OK;
     }
 }

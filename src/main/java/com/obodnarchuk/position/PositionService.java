@@ -17,6 +17,12 @@ public class PositionService implements IPositionService {
     }
 
     @Override
+    public void deletePositionById(long id) {
+        Position position = findPositionOrThrow(id);
+        positionRepository.delete(position);
+    }
+
+    @Override
     public PositionResponseDTO savePosition(Position request) {
         Position position =  positionRepository.findPositionByTitle(request.getTitle());
         if (position!=null){
