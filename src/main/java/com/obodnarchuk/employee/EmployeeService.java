@@ -1,7 +1,6 @@
 package com.obodnarchuk.employee;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -12,9 +11,9 @@ public class EmployeeService implements IEmployeeService {
     final ObjectMapper mapper;
     final EmployeeRepository repository;
 
-    public EmployeeService(EmployeeRepository repository, ObjectMapper mapper) {
-        this.repository = repository;
+    public EmployeeService(ObjectMapper mapper, EmployeeRepository repository) {
         this.mapper = mapper;
+        this.repository = repository;
     }
 
     @Override
