@@ -22,19 +22,33 @@ public class EmployeeService implements IEmployeeService {
     public EmployeeResponseDTO saveEmployee(EmployeeRequestDTO requestDTO) {
         Employee employee = mapper.convertValue(requestDTO, Employee.class);
         repository.save(employee);
-        return mapper.convertValue(employee, EmployeeResponseDTO.class);
+        return mapToResponseDTO(employee);
     }
 
     @Override
     public List<EmployeeResponseDTO> getAllEmployees() {
         List<Employee> employeesFromDB = repository.findAll();
-        return employeesFromDB.stream().map(e -> mapper.convertValue(e, EmployeeResponseDTO.class)).collect(Collectors.toList());
+        return employeesFromDB.stream().map(this::mapToResponseDTO).collect(Collectors.toList());
     }
 
     @Override
     public void deleteEmployeeById(long id) {
-        Employee employee = repository.findById(id).orElseThrow(() -> new RecordNotFoundException(id));
+        Employee employee = findEmployeeOrThrow(id);
         repository.delete(employee);
+    }
+
+    @Override
+    public EmployeeResponseDTO getEmployeeById(long id) {
+        Employee employee = findEmployeeOrThrow(id);
+        return mapToResponseDTO(employee);
+    }
+
+    private EmployeeResponseDTO mapToResponseDTO(Employee employee) {
+        return mapper.convertValue(employee, EmployeeResponseDTO.class);
+    }
+
+    private Employee findEmployeeOrThrow(long id) {
+        return repository.findById(id).orElseThrow(() -> new RecordNotFoundException(id));
     }
 
 

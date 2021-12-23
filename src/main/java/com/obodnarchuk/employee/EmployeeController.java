@@ -19,14 +19,19 @@ public class EmployeeController {
 
     @GetMapping()
     public ResponseEntity<List<EmployeeResponseDTO>> getEmployee() {
-        return new ResponseEntity<List<EmployeeResponseDTO>>(service.getAllEmployees(), HttpStatus.OK);
+        return new ResponseEntity<>(service.getAllEmployees(), HttpStatus.OK);
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<EmployeeResponseDTO> getOneEmployee(@PathVariable("id") long id) {
+        return new ResponseEntity<>(service.getEmployeeById(id), HttpStatus.OK);
     }
 
     @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE,
             consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<EmployeeResponseDTO> saveEmployee(@RequestBody EmployeeRequestDTO requestDTO) {
         EmployeeResponseDTO responseDTO = service.saveEmployee(requestDTO);
-        return new ResponseEntity<EmployeeResponseDTO>(responseDTO, HttpStatus.OK);
+        return new ResponseEntity<>(responseDTO, HttpStatus.OK);
     }
 
     @PutMapping()

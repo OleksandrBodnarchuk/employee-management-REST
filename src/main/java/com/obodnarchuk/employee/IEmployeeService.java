@@ -6,4 +6,5 @@ public interface IEmployeeService {
     EmployeeResponseDTO saveEmployee(EmployeeRequestDTO employee);
      List<EmployeeResponseDTO> getAllEmployees();
     void deleteEmployeeById(long id);
+    EmployeeResponseDTO getEmployeeById(long id);
 }
