@@ -1,4 +1,6 @@
-package com.obodnarchuk.model;
+package com.obodnarchuk.department;
+
+import com.obodnarchuk.address.Address;
 
 import javax.persistence.*;
 

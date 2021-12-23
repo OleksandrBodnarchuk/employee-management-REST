@@ -1,4 +1,4 @@
-package com.obodnarchuk.controller;
+package com.obodnarchuk.department;
 
 import org.springframework.web.bind.annotation.*;
 

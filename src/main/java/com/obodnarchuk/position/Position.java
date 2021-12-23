@@ -1,4 +1,4 @@
-package com.obodnarchuk.model;
+package com.obodnarchuk.position;
 
 import javax.persistence.*;
 

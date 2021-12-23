@@ -1,7 +1,5 @@
-package com.obodnarchuk.controller;
+package com.obodnarchuk.employee;
 
-import com.obodnarchuk.model.Employee;
-import com.obodnarchuk.service.EmployeeService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;

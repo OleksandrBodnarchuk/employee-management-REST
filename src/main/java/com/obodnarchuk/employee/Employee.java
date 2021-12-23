@@ -1,4 +1,8 @@
-package com.obodnarchuk.model;
+package com.obodnarchuk.employee;
+
+import com.obodnarchuk.address.Address;
+import com.obodnarchuk.department.Department;
+import com.obodnarchuk.position.Position;
 
 import javax.persistence.*;
 import java.util.Date;

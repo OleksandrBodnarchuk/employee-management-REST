@@ -1,7 +1,5 @@
-package com.obodnarchuk.service;
+package com.obodnarchuk.employee;
 
-import com.obodnarchuk.model.Employee;
-import com.obodnarchuk.repository.EmployeeRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

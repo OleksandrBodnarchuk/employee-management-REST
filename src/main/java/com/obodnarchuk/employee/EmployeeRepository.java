@@ -1,6 +1,5 @@
-package com.obodnarchuk.repository;
+package com.obodnarchuk.employee;
 
-import com.obodnarchuk.model.Employee;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

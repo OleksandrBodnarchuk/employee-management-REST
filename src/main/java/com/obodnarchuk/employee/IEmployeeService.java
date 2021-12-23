@@ -1,6 +1,4 @@
-package com.obodnarchuk.service;
-
-import com.obodnarchuk.model.Employee;
+package com.obodnarchuk.employee;
 
 import java.util.List;
 
