@@ -5,6 +5,8 @@ import com.obodnarchuk.exceptions.RecordExistsException;
 import com.obodnarchuk.exceptions.RecordNotFoundException;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @Service
 public class PositionService implements IPositionService {
 
@@ -23,12 +25,25 @@ public class PositionService implements IPositionService {
     }
 
     @Override
+    public PositionResponseDTO updatePosition(long id, Position requestDTO) {
+        Position position;
+        try {
+            position = findPositionOrThrow(id);
+            position.setTitle(requestDTO.getTitle());
+        } catch (RecordNotFoundException e) {
+            position=requestDTO;
+        }
+        positionRepository.save(position);
+        return mapToResponseDTO(position);
+    }
+
+    @Override
     public PositionResponseDTO savePosition(Position request) {
-        Position position =  positionRepository.findPositionByTitle(request.getTitle());
-        if (position!=null){
+        Position position = positionRepository.findPositionByTitle(request.getTitle());
+        if (position != null) {
             throw new RecordExistsException(position.getId());
-        }else {
-         positionRepository.save(position=new Position(request.getTitle()));
+        } else {
+            positionRepository.save(position = new Position(request.getTitle()));
         }
 
         return mapToResponseDTO(position);
