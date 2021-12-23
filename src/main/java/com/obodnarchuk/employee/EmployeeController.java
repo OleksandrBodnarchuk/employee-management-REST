@@ -23,8 +23,9 @@ public class EmployeeController {
     }
     @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE,
             consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Employee> saveEmployee(@RequestBody Employee employee){
-        return new ResponseEntity<>(service.saveEmployee(employee),HttpStatus.OK);
+    public HttpStatus saveEmployee(@RequestBody EmployeeRequestDTO requestDTO){
+        System.out.println(requestDTO);
+        return HttpStatus.OK;
     }
     @PutMapping()
     public String updateEmployee(){
