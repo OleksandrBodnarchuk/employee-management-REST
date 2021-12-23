@@ -3,6 +3,6 @@ package com.obodnarchuk.employee;
 import java.util.List;
 
 public interface IEmployeeService {
-    Employee saveEmployee(Employee employee);
+    EmployeeResponseDTO saveEmployee(EmployeeRequestDTO employee);
      List<Employee> getAllEmployees();
 }
