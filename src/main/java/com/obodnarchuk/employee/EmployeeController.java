@@ -18,8 +18,8 @@ public class EmployeeController {
     }
 
     @GetMapping()
-    public ResponseEntity<List<Employee>> getEmployee(){
-    return new ResponseEntity<>(service.getAllEmployees(),HttpStatus.OK);
+    public ResponseEntity<List<EmployeeResponseDTO>> getEmployee(){
+    return new ResponseEntity<List<EmployeeResponseDTO>>(service.getAllEmployees(),HttpStatus.OK);
     }
     @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE,
             consumes = MediaType.APPLICATION_JSON_VALUE)

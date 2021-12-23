@@ -4,5 +4,5 @@ import java.util.List;
 
 public interface IEmployeeService {
     EmployeeResponseDTO saveEmployee(EmployeeRequestDTO employee);
-     List<Employee> getAllEmployees();
+     List<EmployeeResponseDTO> getAllEmployees();
 }

@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class EmployeeService implements IEmployeeService {
@@ -24,8 +25,9 @@ public class EmployeeService implements IEmployeeService {
     }
 
     @Override
-    public List<Employee> getAllEmployees() {
-        return repository.findAll();
+    public List<EmployeeResponseDTO> getAllEmployees() {
+        List<Employee> employeesFromDB = repository.findAll();
+        return employeesFromDB.stream().map(e -> mapper.convertValue(e, EmployeeResponseDTO.class)).collect(Collectors.toList());
     }
 
 
