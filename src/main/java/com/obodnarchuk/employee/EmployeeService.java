@@ -1,6 +1,7 @@
 package com.obodnarchuk.employee;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.obodnarchuk.exceptions.RecordNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -28,6 +29,12 @@ public class EmployeeService implements IEmployeeService {
     public List<EmployeeResponseDTO> getAllEmployees() {
         List<Employee> employeesFromDB = repository.findAll();
         return employeesFromDB.stream().map(e -> mapper.convertValue(e, EmployeeResponseDTO.class)).collect(Collectors.toList());
+    }
+
+    @Override
+    public void deleteEmployeeById(long id) {
+        Employee employee = repository.findById(id).orElseThrow(() -> new RecordNotFoundException(id));
+        repository.delete(employee);
     }
 
 

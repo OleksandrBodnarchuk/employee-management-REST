@@ -18,21 +18,25 @@ public class EmployeeController {
     }
 
     @GetMapping()
-    public ResponseEntity<List<EmployeeResponseDTO>> getEmployee(){
-    return new ResponseEntity<List<EmployeeResponseDTO>>(service.getAllEmployees(),HttpStatus.OK);
+    public ResponseEntity<List<EmployeeResponseDTO>> getEmployee() {
+        return new ResponseEntity<List<EmployeeResponseDTO>>(service.getAllEmployees(), HttpStatus.OK);
     }
+
     @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE,
             consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<EmployeeResponseDTO> saveEmployee(@RequestBody EmployeeRequestDTO requestDTO){
+    public ResponseEntity<EmployeeResponseDTO> saveEmployee(@RequestBody EmployeeRequestDTO requestDTO) {
         EmployeeResponseDTO responseDTO = service.saveEmployee(requestDTO);
-        return new ResponseEntity<EmployeeResponseDTO>(responseDTO,HttpStatus.OK);
+        return new ResponseEntity<EmployeeResponseDTO>(responseDTO, HttpStatus.OK);
     }
+
     @PutMapping()
-    public String updateEmployee(){
+    public String updateEmployee() {
         return "updateEmployee called";
     }
-    @DeleteMapping()
-    public String deleteEmployee(){
-        return "deleteEmployee called";
+
+    @DeleteMapping("/{id}")
+    public HttpStatus deleteEmployee(@PathVariable long id) {
+        service.deleteEmployeeById(id);
+        return HttpStatus.OK;
     }
 }
