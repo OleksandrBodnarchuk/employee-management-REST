@@ -39,7 +39,9 @@ public class DepartmentService implements IDepartmentService {
         try {
             department = findPositionOrThrow(id);
             department.setName(requestDTO.getName());
-            department.setAddress(requestDTO.getAddress());
+            if (requestDTO.getAddress()!=null){
+                department.setAddress(requestDTO.getAddress());
+            }
         } catch (RecordNotFoundException e) {
             department=mapper.convertValue(requestDTO,Department.class);
         }
