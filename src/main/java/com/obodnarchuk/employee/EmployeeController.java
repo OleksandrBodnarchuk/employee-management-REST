@@ -53,4 +53,10 @@ public class EmployeeController {
     public void updateEmployeePosition(@PathVariable("id") long id, HttpServletResponse response) throws IOException {
         response.sendRedirect("/" + id + "/stanowiska/");
     }
+
+    // Dzialy
+    @GetMapping("/{id}/dzialy")
+    public void updateEmployeeDepartment(@PathVariable("id") long id, HttpServletResponse response) throws IOException {
+        response.sendRedirect("/" + id + "/dzialy/");
+    }
 }

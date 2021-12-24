@@ -1,7 +1,6 @@
 package com.obodnarchuk.position;
 
 import com.obodnarchuk.employee.EmployeeService;
-import org.springframework.data.repository.query.Param;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -40,7 +39,7 @@ public class PositionController {
         return new ResponseEntity<>(responseDTO,HttpStatus.OK);
     }
 
-    @DeleteMapping("stanowiska/{id}")
+    @DeleteMapping("stanowiska/{id}") // No need, cannot delete FK for Employee
     public HttpStatus deletePosition(@PathVariable("id")long id) {
         positionService.deletePositionById(id);
         return HttpStatus.OK;

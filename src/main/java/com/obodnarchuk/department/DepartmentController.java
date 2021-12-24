@@ -1,25 +1,46 @@
 package com.obodnarchuk.department;
 
+import com.obodnarchuk.employee.EmployeeService;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("dzialy")
 public class DepartmentController {
+    private final EmployeeService service;
+    private final DepartmentService departmentService;
 
-    @GetMapping()
-    public String getDepartment(){
-    return "getDepartment called";
+    public DepartmentController(EmployeeService service, DepartmentService departmentService) {
+        this.service = service;
+        this.departmentService = departmentService;
     }
-    @PostMapping()
-    public String saveDepartment(){
-        return "saveDepartment called";
+
+    @RequestMapping(value = "{id}/dzialy", method = RequestMethod.GET)
+    public ResponseEntity<DepartmentResponseDTO> getDepartment(@PathVariable("id") long id) {
+        DepartmentResponseDTO employeeDepartment = service.getEmployeeDepartment(id);
+        return new ResponseEntity<>(employeeDepartment, HttpStatus.OK);
     }
-    @PutMapping()
-    public String updateDepartment(){
-        return "updateDepartment called";
+
+    @PostMapping(value = "dzialy",
+            produces = MediaType.APPLICATION_JSON_VALUE,
+            consumes = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<DepartmentResponseDTO> saveDepartment(@RequestBody DepartmentRequestDTO requestDTO) {
+        DepartmentResponseDTO responseDTO = departmentService.saveDepartment(requestDTO);
+        return new ResponseEntity<>(responseDTO,HttpStatus.OK);
     }
-    @DeleteMapping()
-    public String deleteDepartment(){
-        return "deleteDepartment called";
+
+    @PutMapping(value = "dzialy/{id}",
+            produces = MediaType.APPLICATION_JSON_VALUE,
+            consumes = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<DepartmentResponseDTO> updateDepartment(@PathVariable("id")long id, @RequestBody DepartmentRequestDTO requestDTO) {
+        DepartmentResponseDTO responseDTO = departmentService.updateDepartment(id, requestDTO);
+        return new ResponseEntity<>(responseDTO,HttpStatus.OK);
+    }
+
+    @DeleteMapping("dzialy/{id}") // No need, cannot delete FK for Employee
+    public HttpStatus deleteDepartment(@PathVariable("id")long id) {
+        departmentService.deleteDepartmentById(id);
+        return HttpStatus.OK;
     }
 }

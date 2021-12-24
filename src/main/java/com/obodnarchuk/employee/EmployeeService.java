@@ -1,6 +1,7 @@
 package com.obodnarchuk.employee;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.obodnarchuk.department.DepartmentResponseDTO;
 import com.obodnarchuk.exceptions.RecordNotFoundException;
 import com.obodnarchuk.position.PositionResponseDTO;
 import org.springframework.stereotype.Service;
@@ -48,6 +49,12 @@ public class EmployeeService implements IEmployeeService {
     public PositionResponseDTO getEmployeePosition(long id) {
         Employee employee = findEmployeeOrThrow(id);
         return mapper.convertValue(employee.getPosition(), PositionResponseDTO.class);
+    }
+
+    @Override
+    public DepartmentResponseDTO getEmployeeDepartment(long id) {
+        Employee employee = findEmployeeOrThrow(id);
+        return mapper.convertValue(employee.getDepartment(), DepartmentResponseDTO.class);
     }
 
     private EmployeeResponseDTO mapToResponseDTO(Employee employee) {
