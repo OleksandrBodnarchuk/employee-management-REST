@@ -3,9 +3,11 @@ package com.obodnarchuk.address;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.obodnarchuk.exceptions.RecordExistsException;
 import com.obodnarchuk.exceptions.RecordNotFoundException;
+import com.obodnarchuk.position.Position;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class AddressService implements IAddressService {
@@ -44,7 +46,8 @@ public class AddressService implements IAddressService {
 
     @Override
     public List<AddressResponseDTO> getAllAddresses() {
-        return null;
+        List<Address> addressesFromDB = addressRepository.findAll();
+        return addressesFromDB.stream().map(this::mapToResponseDTO).collect(Collectors.toList());
     }
 
 
