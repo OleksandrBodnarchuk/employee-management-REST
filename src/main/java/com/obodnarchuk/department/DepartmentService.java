@@ -1,6 +1,8 @@
 package com.obodnarchuk.department;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.obodnarchuk.employee.Employee;
+import com.obodnarchuk.exceptions.RecordExistsException;
 import com.obodnarchuk.exceptions.RecordNotFoundException;
 import com.obodnarchuk.position.Position;
 import org.springframework.stereotype.Service;
@@ -20,7 +22,18 @@ public class DepartmentService implements IDepartmentService {
 
     @Override
     public DepartmentResponseDTO saveDepartment(DepartmentRequestDTO requestDTO) {
-        return null;
+        Department department = repository.findDepartmentByTitle(requestDTO.getName());
+        if (department != null) {
+            throw new RecordExistsException(department.getId());
+        } else {
+            department = new Department(requestDTO.getName());
+            if (requestDTO.getAddress()!=null){
+                department.setAddress(requestDTO.getAddress());
+            }
+            repository.save(department);
+        }
+
+        return mapToResponseDTO(department);
     }
 
     @Override
