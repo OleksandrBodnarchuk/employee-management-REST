@@ -5,7 +5,11 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 
 @ResponseStatus(HttpStatus.NOT_FOUND)
 public class RecordNotFoundException extends RuntimeException {
+    public RecordNotFoundException(String name) {
+        super("Record: " + name + " not found.");
+    }
+
     public RecordNotFoundException(long id) {
-        super("Resource with id: " + id + " not found.");
+        super("Record with id: " + id + " not found.");
     }
 }

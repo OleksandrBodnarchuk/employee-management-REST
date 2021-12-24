@@ -1,16 +1,35 @@
 package com.obodnarchuk.address;
 
-import com.obodnarchuk.department.DepartmentRequestDTO;
-import com.obodnarchuk.department.DepartmentResponseDTO;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.obodnarchuk.exceptions.RecordExistsException;
+import com.obodnarchuk.exceptions.RecordNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
-public class AddressService implements IAddressService{
+public class AddressService implements IAddressService {
+
+    final AddressRepository addressRepository;
+    final ObjectMapper mapper;
+
+    public AddressService(AddressRepository addressRepository, ObjectMapper mapper) {
+        this.addressRepository = addressRepository;
+        this.mapper = mapper;
+    }
+
     @Override
     public AddressResponseDTO saveAddress(AddressRequestDTO requestDTO) {
-        return null;
+      AddressResponseDTO responseDTO;
+       try {
+           checkNewAddressOrThrow(requestDTO);
+           throw new RecordExistsException(requestDTO.toString());
+       }catch (RecordNotFoundException e){
+           Address address = mapper.convertValue(requestDTO, Address.class);
+           addressRepository.save(address);
+           responseDTO = mapToResponseDTO(address);
+       }
+        return responseDTO;
     }
 
     @Override
@@ -19,7 +38,7 @@ public class AddressService implements IAddressService{
     }
 
     @Override
-    public AddressResponseDTO updatePosition(long id, AddressRequestDTO requestDTO) {
+    public AddressResponseDTO updateAddress(long id, AddressRequestDTO requestDTO) {
         return null;
     }
 
@@ -28,8 +47,17 @@ public class AddressService implements IAddressService{
         return null;
     }
 
-    @Override
-    public DepartmentResponseDTO updateAddress(long id, DepartmentRequestDTO requestDTO) {
-        return null;
+
+    private Address findAddressByIdOrThrow(long id) {
+        return addressRepository.findById(id).orElseThrow(() -> new RecordNotFoundException(id));
+    }
+
+    private AddressResponseDTO mapToResponseDTO(Address address) {
+        return mapper.convertValue(address, AddressResponseDTO.class);
+    }
+
+    private void checkNewAddressOrThrow(AddressRequestDTO requestDTO) {
+        addressRepository.checkForAddress(requestDTO.getCity(),requestDTO.getStreet(),requestDTO.getHouseNr())
+                .orElseThrow(()-> new RecordNotFoundException(requestDTO.toString()));
     }
 }

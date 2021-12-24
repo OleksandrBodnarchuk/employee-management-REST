@@ -43,8 +43,8 @@ public class AddressController {
     @PutMapping(value = "adresy/{id}",
             produces = MediaType.APPLICATION_JSON_VALUE,
             consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<DepartmentResponseDTO> updateDepartment(@PathVariable("id") long id, @RequestBody DepartmentRequestDTO requestDTO) {
-        DepartmentResponseDTO responseDTO = addressService.updateAddress(id, requestDTO);
+    public ResponseEntity<AddressResponseDTO> updateDepartment(@PathVariable("id") long id, @RequestBody AddressRequestDTO requestDTO) {
+        AddressResponseDTO responseDTO = addressService.updateAddress(id, requestDTO);
         return new ResponseEntity<>(responseDTO, HttpStatus.OK);
     }
 

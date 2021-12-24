@@ -46,4 +46,14 @@ public class AddressRequestDTO {
     public void setCity(String city) {
         this.city = city;
     }
+
+    @Override
+    public String toString() {
+        return "{" +
+                "street='" + street + '\'' +
+                ", houseNr='" + houseNr + '\'' +
+                ", zipCode='" + zipCode + '\'' +
+                ", city='" + city + '\'' +
+                '}';
+    }
 }

@@ -1,6 +1,7 @@
 package com.obodnarchuk.address;
 
 import javax.persistence.*;
+import java.util.Objects;
 
 @Entity
 @Table(name = "Adresy")
@@ -62,5 +63,18 @@ public class Address {
 
     public void setCity(String city) {
         this.city = city;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Address address = (Address) o;
+        return Objects.equals(street, address.street) && Objects.equals(houseNr, address.houseNr) && Objects.equals(zipCode, address.zipCode) && Objects.equals(city, address.city);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(street, houseNr, zipCode, city);
     }
 }
