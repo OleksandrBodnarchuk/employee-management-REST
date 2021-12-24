@@ -1,8 +1,6 @@
 package com.obodnarchuk.address;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.obodnarchuk.department.Department;
-import com.obodnarchuk.department.DepartmentResponseDTO;
 import com.obodnarchuk.exceptions.RecordExistsException;
 import com.obodnarchuk.exceptions.RecordNotFoundException;
 import org.springframework.stereotype.Service;
@@ -43,7 +41,33 @@ public class AddressService implements IAddressService {
 
     @Override
     public AddressResponseDTO updateAddress(long id, AddressRequestDTO requestDTO) {
-        return null;
+        Address address;
+        try {
+            address = findAddressByIdOrThrow(id);
+            checkDTOValuesAndMap(requestDTO, address);
+        } catch (RecordNotFoundException e) {
+            address = mapper.convertValue(requestDTO, Address.class);
+        }
+        addressRepository.save(address);
+        return mapToResponseDTO(address);
+    }
+
+    private void checkDTOValuesAndMap(AddressRequestDTO requestDTO, Address address) {
+        if (requestDTO.getCity() != null) {
+            address.setCity(requestDTO.getCity());
+        }
+
+        if (requestDTO.getHouseNr() != null) {
+            address.setHouseNr(requestDTO.getHouseNr());
+        }
+
+        if (requestDTO.getStreet() != null) {
+            address.setStreet(requestDTO.getStreet());
+        }
+
+        if (requestDTO.getZipCode() != null) {
+            address.setZipCode(requestDTO.getZipCode());
+        }
     }
 
     @Override

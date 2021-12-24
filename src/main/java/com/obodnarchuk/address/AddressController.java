@@ -51,7 +51,7 @@ public class AddressController {
             consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<AddressResponseDTO> updateDepartment(@PathVariable("id") long id, @RequestBody AddressRequestDTO requestDTO) {
         AddressResponseDTO responseDTO = addressService.updateAddress(id, requestDTO);
-        return new ResponseEntity<>(responseDTO, HttpStatus.OK);
+            return new ResponseEntity<>(responseDTO, HttpStatus.OK);
     }
 
     @DeleteMapping("adresy/{id}") // No need, cannot delete FK for Employee
