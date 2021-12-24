@@ -1,11 +1,13 @@
 package com.obodnarchuk.position;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.obodnarchuk.employee.Employee;
 import com.obodnarchuk.exceptions.RecordExistsException;
 import com.obodnarchuk.exceptions.RecordNotFoundException;
 import org.springframework.stereotype.Service;
 
-import java.util.Optional;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class PositionService implements IPositionService {
@@ -35,6 +37,12 @@ public class PositionService implements IPositionService {
         }
         positionRepository.save(position);
         return mapToResponseDTO(position);
+    }
+
+    @Override
+    public List<PositionResponseDTO> getAllPositions() {
+        List<Position> positionsFromDB = positionRepository.findAll();
+        return positionsFromDB.stream().map(this::mapToResponseDTO).collect(Collectors.toList());
     }
 
     @Override
