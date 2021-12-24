@@ -12,4 +12,7 @@ public interface IAddressService {
 
     List<AddressResponseDTO> getAllAddresses();
 
+    AddressResponseDTO getAddressById(long id);
+
+
 }

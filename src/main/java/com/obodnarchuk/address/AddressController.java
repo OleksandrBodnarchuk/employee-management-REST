@@ -32,6 +32,12 @@ public class AddressController {
         return new ResponseEntity<>(addressService.getAllAddresses(), HttpStatus.OK);
     }
 
+    @GetMapping("adresy/{id}")
+    public ResponseEntity<AddressResponseDTO> getAllAddresss(@PathVariable("id") long id) {
+        AddressResponseDTO addressById = addressService.getAddressById(id);
+        return new ResponseEntity<>(addressById, HttpStatus.OK);
+    }
+
     @PostMapping(value = "adresy",
             produces = MediaType.APPLICATION_JSON_VALUE,
             consumes = MediaType.APPLICATION_JSON_VALUE)
