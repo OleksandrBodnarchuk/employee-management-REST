@@ -37,7 +37,8 @@ public class AddressService implements IAddressService {
 
     @Override
     public void deleteAddressById(long id) {
-
+        Address address = findAddressByIdOrThrow(id);
+        addressRepository.delete(address);
     }
 
     @Override
