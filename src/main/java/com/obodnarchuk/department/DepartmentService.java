@@ -2,9 +2,11 @@ package com.obodnarchuk.department;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.obodnarchuk.exceptions.RecordNotFoundException;
+import com.obodnarchuk.position.Position;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class DepartmentService implements IDepartmentService {
@@ -23,8 +25,8 @@ public class DepartmentService implements IDepartmentService {
 
     @Override
     public List<DepartmentResponseDTO> getAllDepartments() {
-        return null;
-    }
+        List<Department> departmentsFromDB = repository.findAll();
+        return departmentsFromDB.stream().map(this::mapToResponseDTO).collect(Collectors.toList());    }
 
     @Override
     public void deleteDepartmentById(long id) {

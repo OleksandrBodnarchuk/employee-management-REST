@@ -1,10 +1,13 @@
 package com.obodnarchuk.department;
 
 import com.obodnarchuk.employee.EmployeeService;
+import com.obodnarchuk.position.PositionResponseDTO;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 public class DepartmentController {
@@ -20,6 +23,11 @@ public class DepartmentController {
     public ResponseEntity<DepartmentResponseDTO> getDepartment(@PathVariable("id") long id) {
         DepartmentResponseDTO employeeDepartment = service.getEmployeeDepartment(id);
         return new ResponseEntity<>(employeeDepartment, HttpStatus.OK);
+    }
+
+    @GetMapping("dzialy")
+    public ResponseEntity<List<DepartmentResponseDTO>> getAllDepartments() {
+        return new ResponseEntity<>(departmentService.getAllDepartments(), HttpStatus.OK);
     }
 
     @PostMapping(value = "dzialy",

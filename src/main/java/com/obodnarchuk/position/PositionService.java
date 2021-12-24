@@ -1,7 +1,6 @@
 package com.obodnarchuk.position;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.obodnarchuk.employee.Employee;
 import com.obodnarchuk.exceptions.RecordExistsException;
 import com.obodnarchuk.exceptions.RecordNotFoundException;
 import org.springframework.stereotype.Service;
