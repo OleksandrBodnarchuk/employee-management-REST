@@ -1,5 +1,6 @@
 package com.obodnarchuk.employee;
 
+import com.obodnarchuk.address.AddressResponseDTO;
 import com.obodnarchuk.department.DepartmentResponseDTO;
 import com.obodnarchuk.position.PositionResponseDTO;
 
@@ -17,4 +18,6 @@ public interface IEmployeeService {
     PositionResponseDTO getEmployeePosition(long id);
 
     DepartmentResponseDTO getEmployeeDepartment(long id);
+
+    AddressResponseDTO getEmployeeAddress(long id);
 }

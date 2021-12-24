@@ -1,6 +1,7 @@
 package com.obodnarchuk.employee;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.obodnarchuk.address.AddressResponseDTO;
 import com.obodnarchuk.department.DepartmentResponseDTO;
 import com.obodnarchuk.exceptions.RecordNotFoundException;
 import com.obodnarchuk.position.PositionResponseDTO;
@@ -55,6 +56,12 @@ public class EmployeeService implements IEmployeeService {
     public DepartmentResponseDTO getEmployeeDepartment(long id) {
         Employee employee = findEmployeeOrThrow(id);
         return mapper.convertValue(employee.getDepartment(), DepartmentResponseDTO.class);
+    }
+
+    @Override
+    public AddressResponseDTO getEmployeeAddress(long id) {
+        Employee employee = findEmployeeOrThrow(id);
+        return mapper.convertValue(employee.getAddress(), AddressResponseDTO.class);
     }
 
     private EmployeeResponseDTO mapToResponseDTO(Employee employee) {

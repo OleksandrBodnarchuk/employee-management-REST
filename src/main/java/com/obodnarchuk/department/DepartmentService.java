@@ -1,10 +1,8 @@
 package com.obodnarchuk.department;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.obodnarchuk.employee.Employee;
 import com.obodnarchuk.exceptions.RecordExistsException;
 import com.obodnarchuk.exceptions.RecordNotFoundException;
-import com.obodnarchuk.position.Position;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -43,14 +41,15 @@ public class DepartmentService implements IDepartmentService {
 
     @Override
     public void deleteDepartmentById(long id) {
-
+        Department department = findDepartmentOrThrow(id);
+        repository.delete(department);
     }
 
     @Override
     public DepartmentResponseDTO updateDepartment(long id, DepartmentRequestDTO requestDTO) {
         Department department;
         try {
-            department = findPositionOrThrow(id);
+            department = findDepartmentOrThrow(id);
             department.setName(requestDTO.getName());
             if (requestDTO.getAddress()!=null){
                 department.setAddress(requestDTO.getAddress());
@@ -67,7 +66,7 @@ public class DepartmentService implements IDepartmentService {
         return null;
     }
 
-    private Department findPositionOrThrow(long id) {
+    private Department findDepartmentOrThrow(long id) {
         return repository.findById(id).orElseThrow(() -> new RecordNotFoundException(id));
     }
 
