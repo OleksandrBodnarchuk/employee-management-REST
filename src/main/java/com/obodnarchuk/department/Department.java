@@ -11,7 +11,7 @@ public class Department {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "Id")
     private long id;
-    @Column(name = "Nazwa", length = 30)
+    @Column(name = "Nazwa", length = 30, unique = true)
     private String name;
 
     @OneToOne(optional = true, cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})

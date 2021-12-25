@@ -12,4 +12,6 @@ public interface IDepartmentService {
     DepartmentResponseDTO updateDepartment(long id, DepartmentRequestDTO requestDTO);
 
     DepartmentResponseDTO getDepartmentById(long id);
+
+    Department getDepartmentByName(String name);
 }

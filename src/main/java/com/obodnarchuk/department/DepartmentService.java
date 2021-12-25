@@ -66,6 +66,11 @@ public class DepartmentService implements IDepartmentService {
         return mapToResponseDTO(findDepartmentOrThrow(id));
     }
 
+    @Override
+    public Department getDepartmentByName(String name) {
+        return repository.findDepartmentByTitle(name);
+    }
+
     private Department findDepartmentOrThrow(long id) {
         return repository.findById(id).orElseThrow(() -> new RecordNotFoundException(id));
     }

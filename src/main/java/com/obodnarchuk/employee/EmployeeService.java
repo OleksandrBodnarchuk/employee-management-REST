@@ -2,7 +2,9 @@ package com.obodnarchuk.employee;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.obodnarchuk.address.AddressResponseDTO;
+import com.obodnarchuk.department.Department;
 import com.obodnarchuk.department.DepartmentResponseDTO;
+import com.obodnarchuk.department.DepartmentService;
 import com.obodnarchuk.exceptions.RecordExistsException;
 import com.obodnarchuk.exceptions.RecordNotFoundException;
 import com.obodnarchuk.position.Position;
@@ -19,11 +21,13 @@ public class EmployeeService implements IEmployeeService {
     final ObjectMapper mapper;
     final EmployeeRepository repository;
     final PositionService positionService;
+    final DepartmentService departmentService;
 
-    public EmployeeService(ObjectMapper mapper, EmployeeRepository repository, PositionService positionService) {
+    public EmployeeService(ObjectMapper mapper, EmployeeRepository repository, PositionService positionService, DepartmentService departmentService) {
         this.mapper = mapper;
         this.repository = repository;
         this.positionService = positionService;
+        this.departmentService = departmentService;
     }
 
     @Override
@@ -31,6 +35,7 @@ public class EmployeeService implements IEmployeeService {
         Employee employee = mapper.convertValue(requestDTO, Employee.class);
         createEmployeeEmail(employee);
         checkEmployeePosition(employee);
+        checkEmployeeDepartment(employee);
         try {
             repository.save(employee);
         } catch (Exception e) {
@@ -95,6 +100,14 @@ public class EmployeeService implements IEmployeeService {
         // if position exists
         if (positionFromDb!=null){
             employee.setPosition(positionFromDb);
+        }
+    }
+
+    private void checkEmployeeDepartment(Employee employee) {
+        Department departmentFromDb = departmentService.getDepartmentByName(employee.getDepartment().getName());
+        // if department exists
+        if (departmentFromDb!=null){
+            employee.setDepartment(departmentFromDb);
         }
     }
 
