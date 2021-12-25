@@ -24,6 +24,7 @@ public class EmployeeService implements IEmployeeService {
     @Override
     public EmployeeResponseDTO saveEmployee(EmployeeRequestDTO requestDTO) {
         Employee employee = mapper.convertValue(requestDTO, Employee.class);
+        createEmployeeEmail(employee);
         repository.save(employee);
         return mapToResponseDTO(employee);
     }
@@ -72,5 +73,11 @@ public class EmployeeService implements IEmployeeService {
         return repository.findById(id).orElseThrow(() -> new RecordNotFoundException(id));
     }
 
+
+    private void createEmployeeEmail(Employee employee) {
+        employee.setEmail(employee.getName().toLowerCase()
+                + "." + employee.getSurname().toLowerCase()
+                + "@company.com");
+    }
 
 }

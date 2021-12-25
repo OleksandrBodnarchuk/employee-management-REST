@@ -1,5 +1,6 @@
 package com.obodnarchuk.employee;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.obodnarchuk.address.AddressDTO;
 import com.obodnarchuk.department.DepartmentDTO;
 import com.obodnarchuk.position.Position;
@@ -9,7 +10,6 @@ import java.util.Date;
 public class EmployeeRequestDTO {
     private String name;
     private String surname;
-    private String email;
     private long phone;
     private Date startDate;
     private Integer salary;
@@ -17,11 +17,10 @@ public class EmployeeRequestDTO {
     private DepartmentDTO department;
     private Position position;
 
-    public EmployeeRequestDTO(String name, String surname, String email, long phone, Date startDate, Integer salary,
+    public EmployeeRequestDTO(String name, String surname, long phone, Date startDate, Integer salary,
                               AddressDTO address, DepartmentDTO department, Position position) {
         this.name = name;
         this.surname = surname;
-        this.email = email;
         this.phone = phone;
         this.startDate = startDate;
         this.salary = salary;
@@ -44,14 +43,6 @@ public class EmployeeRequestDTO {
 
     public void setSurname(String surname) {
         this.surname = surname;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
     }
 
     public long getPhone() {
