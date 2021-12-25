@@ -30,6 +30,13 @@ public class PositionController {
         return new ResponseEntity<>(positionService.getAllPositions(), HttpStatus.OK);
     }
 
+    @GetMapping("stanowiska/{id}")
+    public ResponseEntity<PositionResponseDTO> getOnePosition(@PathVariable("id") long id) {
+        PositionResponseDTO position = positionService.getPositionById(id);
+        return new ResponseEntity<>(position, HttpStatus.OK);
+    }
+
+
     @PostMapping(value = "stanowiska",
             produces = MediaType.APPLICATION_JSON_VALUE,
             consumes = MediaType.APPLICATION_JSON_VALUE)

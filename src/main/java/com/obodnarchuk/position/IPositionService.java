@@ -11,4 +11,6 @@ public interface IPositionService {
     PositionResponseDTO updatePosition(long id, Position requestDTO);
 
     List<PositionResponseDTO> getAllPositions();
+
+    PositionResponseDTO getPositionById(long id);
 }

@@ -45,6 +45,11 @@ public class PositionService implements IPositionService {
     }
 
     @Override
+    public PositionResponseDTO getPositionById(long id) {
+        return mapToResponseDTO(findPositionOrThrow(id));
+    }
+
+    @Override
     public PositionResponseDTO savePosition(Position request) {
         Position position = positionRepository.findPositionByTitle(request.getTitle());
         if (position != null) {

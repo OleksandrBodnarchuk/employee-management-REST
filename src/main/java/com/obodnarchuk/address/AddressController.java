@@ -1,7 +1,5 @@
 package com.obodnarchuk.address;
 
-import com.obodnarchuk.department.DepartmentRequestDTO;
-import com.obodnarchuk.department.DepartmentResponseDTO;
 import com.obodnarchuk.employee.EmployeeService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
