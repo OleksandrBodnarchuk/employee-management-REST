@@ -95,6 +95,33 @@ public class EmployeeService implements IEmployeeService {
         return mapToResponseDTO(employee);
     }
 
+    @Override
+    public PositionResponseDTO updatePosition(long id, Position positionRequestDTO) {
+        Employee employeeFromDB = findEmployeeOrThrow(id);
+        // check for duplicates in DB
+        PositionResponseDTO positionResponseDTO = checkAndUpdatePosition(positionRequestDTO, employeeFromDB);
+        updateEmployee(id, mapper.convertValue(employeeFromDB, EmployeeRequestDTO.class));
+        return positionResponseDTO;
+    }
+
+    private PositionResponseDTO checkAndUpdatePosition(Position positionRequestDTO, Employee employeeFromDB) {
+        PositionResponseDTO positionResponseDTO;
+        Position positionByTitle = positionService.getPositionByTitle(positionRequestDTO.getTitle());
+        // check if position NOT exist in DB
+        if (positionByTitle == null) {
+            Position position = new Position(positionRequestDTO.getTitle());
+            positionResponseDTO = positionService.savePosition(position);
+            // assign new position to employee
+            Position newPosition = positionService.getPositionByTitle(positionResponseDTO.getTitle());
+            employeeFromDB.setPosition(newPosition);
+        } else {
+            // set position to other available in DB position
+            employeeFromDB.setPosition(positionByTitle);
+            positionResponseDTO = mapper.convertValue(employeeFromDB.getPosition(), PositionResponseDTO.class);
+        }
+        return positionResponseDTO;
+    }
+
     private void checkDtoValuesAndMap(EmployeeRequestDTO requestDTO, Employee employee) {
         if (requestDTO.getName() != null) {
             employee.setName(requestDTO.getName());
@@ -121,7 +148,7 @@ public class EmployeeService implements IEmployeeService {
     }
 
     private void checkEmployeePosition(Employee employee) {
-         // if position exists
+        // if position exists
         if (employee.getPosition() != null) {
             Position positionFromDb = positionService.getPositionByTitle(employee.getPosition().getTitle());
             employee.setPosition(positionFromDb);

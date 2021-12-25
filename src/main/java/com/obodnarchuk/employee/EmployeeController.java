@@ -1,5 +1,8 @@
 package com.obodnarchuk.employee;
 
+import com.obodnarchuk.position.Position;
+import com.obodnarchuk.position.PositionResponseDTO;
+import com.obodnarchuk.position.PositionService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -14,9 +17,11 @@ import java.util.List;
 public class EmployeeController {
 
     final EmployeeService service;
+    final PositionService positionService;
 
-    public EmployeeController(EmployeeService service) {
+    public EmployeeController(EmployeeService service, PositionService positionService) {
         this.service = service;
+        this.positionService = positionService;
     }
 
     @GetMapping()
@@ -39,8 +44,8 @@ public class EmployeeController {
 
     @PutMapping("/{id}")
     public ResponseEntity<EmployeeResponseDTO> updateEmployee(@PathVariable("id") long id, @RequestBody EmployeeRequestDTO requestDTO) {
-        EmployeeResponseDTO responseDTO = service.updateEmployee(id,requestDTO);
-        return new ResponseEntity<>(responseDTO,HttpStatus.OK);
+        EmployeeResponseDTO responseDTO = service.updateEmployee(id, requestDTO);
+        return new ResponseEntity<>(responseDTO, HttpStatus.OK);
     }
 
     @DeleteMapping("/{id}")
@@ -51,19 +56,25 @@ public class EmployeeController {
 
     // Stanowiska
     @GetMapping("/{id}/stanowiska")
-    public void updateEmployeePosition(@PathVariable("id") long id, HttpServletResponse response) throws IOException {
+    public void getEmployeePosition(@PathVariable("id") long id, HttpServletResponse response) throws IOException {
         response.sendRedirect("/" + id + "/stanowiska/");
+    }
+
+    @PutMapping("/{id}/stanowiska")
+    public ResponseEntity<PositionResponseDTO> updateEmployeePosition(@PathVariable("id") long id, @RequestBody Position positionRequestDTO) {
+        PositionResponseDTO positionResponseDTO =  service.updatePosition(id,positionRequestDTO);
+        return new ResponseEntity<>(positionResponseDTO,HttpStatus.OK);
     }
 
     // Dzialy
     @GetMapping("/{id}/dzialy")
-    public void updateEmployeeDepartment(@PathVariable("id") long id, HttpServletResponse response) throws IOException {
+    public void getEmployeeDepartment(@PathVariable("id") long id, HttpServletResponse response) throws IOException {
         response.sendRedirect("/" + id + "/dzialy/");
     }
 
     // Adresy
     @GetMapping("/{id}/adresy")
-    public void updateEmployeeAddress(@PathVariable("id") long id, HttpServletResponse response) throws IOException {
+    public void getEmployeeAddress(@PathVariable("id") long id, HttpServletResponse response) throws IOException {
         response.sendRedirect("/" + id + "/adresy/");
     }
 }
