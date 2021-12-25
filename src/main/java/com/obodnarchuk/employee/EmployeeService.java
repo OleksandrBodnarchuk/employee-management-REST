@@ -3,10 +3,13 @@ package com.obodnarchuk.employee;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.obodnarchuk.address.AddressResponseDTO;
 import com.obodnarchuk.department.DepartmentResponseDTO;
+import com.obodnarchuk.exceptions.RecordExistsException;
 import com.obodnarchuk.exceptions.RecordNotFoundException;
 import com.obodnarchuk.position.PositionResponseDTO;
 import org.springframework.stereotype.Service;
 
+import java.sql.SQLException;
+import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -25,7 +28,11 @@ public class EmployeeService implements IEmployeeService {
     public EmployeeResponseDTO saveEmployee(EmployeeRequestDTO requestDTO) {
         Employee employee = mapper.convertValue(requestDTO, Employee.class);
         createEmployeeEmail(employee);
-        repository.save(employee);
+        try {
+            repository.save(employee);
+        } catch (Exception e) {
+            throw new RecordExistsException(employee.getEmail());
+        }
         return mapToResponseDTO(employee);
     }
 
@@ -75,8 +82,8 @@ public class EmployeeService implements IEmployeeService {
 
 
     private void createEmployeeEmail(Employee employee) {
-        employee.setEmail(employee.getName().toLowerCase()
-                + "." + employee.getSurname().toLowerCase()
+        employee.setEmail(employee.getName().trim().toLowerCase()
+                + "." + employee.getSurname().trim().toLowerCase()
                 + "@company.com");
     }
 
