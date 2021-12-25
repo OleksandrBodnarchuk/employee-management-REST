@@ -54,7 +54,7 @@ public class AddressController {
 
     @DeleteMapping("adresy/{id}") // No need, cannot delete FK for Employee
     public HttpStatus deleteDepartment(@PathVariable("id") long id) {
-        addressService.deleteAddressById(id);
+        addressService.deleteAddressById(id); // TODO: Catch exception when address if address has connections
         return HttpStatus.OK;
     }
 }

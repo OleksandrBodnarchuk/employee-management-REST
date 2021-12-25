@@ -37,9 +37,10 @@ public class EmployeeController {
         return new ResponseEntity<>(responseDTO, HttpStatus.OK);
     }
 
-    @PutMapping()
-    public String updateEmployee() {
-        return "updateEmployee called";
+    @PutMapping("/{id}")
+    public ResponseEntity<EmployeeResponseDTO> updateEmployee(@PathVariable("id") long id, @RequestBody EmployeeRequestDTO requestDTO) {
+        EmployeeResponseDTO responseDTO = service.updateEmployee(id,requestDTO);
+        return new ResponseEntity<>(responseDTO,HttpStatus.OK);
     }
 
     @DeleteMapping("/{id}")

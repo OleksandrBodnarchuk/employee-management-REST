@@ -28,7 +28,7 @@ public class Employee {
     @Column(name = "Wynagrodzenie")
     private Integer salary;
 
-    @OneToOne(optional = true,cascade = CascadeType.ALL)
+    @OneToOne(optional = true,cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
     @JoinColumn(name = "Adres")
     private Address address;
 

@@ -1,6 +1,7 @@
 package com.obodnarchuk.address;
 
 import java.util.List;
+import java.util.Optional;
 
 
 public interface IAddressService {
@@ -15,4 +16,5 @@ public interface IAddressService {
     AddressResponseDTO getAddressById(long id);
 
 
+    Optional<Address> findAddress(Address address);
 }

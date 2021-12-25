@@ -6,6 +6,7 @@ import com.obodnarchuk.exceptions.RecordNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -26,7 +27,7 @@ public class AddressService implements IAddressService {
             checkNewAddressOrThrow(requestDTO);
             throw new RecordExistsException(requestDTO.toString());
         } catch (RecordNotFoundException e) {
-            Address address = mapper.convertValue(requestDTO, Address.class);
+            Address address = mapRequestToAddress(requestDTO);
             addressRepository.save(address);
             responseDTO = mapToResponseDTO(address);
         }
@@ -46,7 +47,7 @@ public class AddressService implements IAddressService {
             address = findAddressByIdOrThrow(id);
             checkDTOValuesAndMap(requestDTO, address);
         } catch (RecordNotFoundException e) {
-            address = mapper.convertValue(requestDTO, Address.class);
+            address = mapRequestToAddress(requestDTO);
         }
         addressRepository.save(address);
         return mapToResponseDTO(address);
@@ -82,6 +83,11 @@ public class AddressService implements IAddressService {
         return mapToResponseDTO(address);
     }
 
+    @Override
+    public Optional<Address> findAddress(Address address) {
+        return addressRepository.checkForAddress(address.getCity(), address.getStreet(), address.getHouseNr());
+    }
+
 
     private Address findAddressByIdOrThrow(long id) {
         return addressRepository.findById(id).orElseThrow(() -> new RecordNotFoundException(id));
@@ -94,5 +100,9 @@ public class AddressService implements IAddressService {
     private void checkNewAddressOrThrow(AddressRequestDTO requestDTO) {
         addressRepository.checkForAddress(requestDTO.getCity(), requestDTO.getStreet(), requestDTO.getHouseNr())
                 .orElseThrow(() -> new RecordNotFoundException(requestDTO.toString()));
+    }
+
+    private Address mapRequestToAddress(AddressRequestDTO requestDTO) {
+        return mapper.convertValue(requestDTO, Address.class);
     }
 }

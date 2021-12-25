@@ -20,4 +20,6 @@ public interface IEmployeeService {
     DepartmentResponseDTO getEmployeeDepartment(long id);
 
     AddressResponseDTO getEmployeeAddress(long id);
+
+    EmployeeResponseDTO updateEmployee(long id, EmployeeRequestDTO requestDTO);
 }
