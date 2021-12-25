@@ -63,7 +63,7 @@ public class DepartmentService implements IDepartmentService {
 
     @Override
     public DepartmentResponseDTO getDepartmentById(long id) {
-        return null;
+        return mapToResponseDTO(findDepartmentOrThrow(id));
     }
 
     private Department findDepartmentOrThrow(long id) {

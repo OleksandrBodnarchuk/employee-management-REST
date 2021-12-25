@@ -30,6 +30,11 @@ public class DepartmentController {
         return new ResponseEntity<>(departmentService.getAllDepartments(), HttpStatus.OK);
     }
 
+    @GetMapping("dzialy/{id}")
+    public ResponseEntity<DepartmentResponseDTO> getOneDepartment(@PathVariable("id")long id) {
+        return new ResponseEntity<>(departmentService.getDepartmentById(id), HttpStatus.OK);
+    }
+
     @PostMapping(value = "dzialy",
             produces = MediaType.APPLICATION_JSON_VALUE,
             consumes = MediaType.APPLICATION_JSON_VALUE)
