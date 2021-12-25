@@ -1,6 +1,5 @@
 package com.obodnarchuk.address;
 
-import javax.persistence.Column;
 
 public class AddressRequestDTO {
     private String street;

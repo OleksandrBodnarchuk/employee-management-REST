@@ -1,8 +1,7 @@
 package com.obodnarchuk.employee;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.obodnarchuk.address.AddressResponseDTO;
-import com.obodnarchuk.address.AddressService;
+import com.obodnarchuk.address.*;
 import com.obodnarchuk.department.*;
 import com.obodnarchuk.exceptions.RecordExistsException;
 import com.obodnarchuk.position.Position;
@@ -11,6 +10,7 @@ import com.obodnarchuk.position.PositionService;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import static com.obodnarchuk.employee.EmployeeUtil.*;
@@ -114,6 +114,18 @@ public class EmployeeService implements IEmployeeService {
         repository.updateEmployeeDepartment(employeeId, departmentFromDB);
 
         return DepartmentUtil.mapToResponseDTO(departmentFromDB,mapper);
+    }
+
+    @Override
+    public AddressResponseDTO updateAddress(long employeeId, AddressRequestDTO addressRequestDTO) {
+        Address newAddress = AddressUtil.mapRequestToAddress(addressRequestDTO,mapper);
+        Optional<Address> addressFromDB = addressService.findAddress(newAddress);
+        if (addressFromDB.isEmpty()){
+            AddressResponseDTO addressResponseDTO = addressService.saveAddress(addressRequestDTO);
+            addressFromDB=Optional.of(mapper.convertValue(addressResponseDTO,Address.class));
+        }
+        repository.updateEmployeeAddress(employeeId,addressFromDB.get());
+        return AddressUtil.mapToResponse(addressFromDB.get(),mapper);
     }
 
 }
