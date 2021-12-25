@@ -95,11 +95,11 @@ public class EmployeeService implements IEmployeeService {
         return mapToResponseDTO(employee);
     }
 
-    private void checkDtoValuesAndMap(EmployeeRequestDTO requestDTO,Employee employee) {
-        if (requestDTO.getName()!=null){
+    private void checkDtoValuesAndMap(EmployeeRequestDTO requestDTO, Employee employee) {
+        if (requestDTO.getName() != null) {
             employee.setName(requestDTO.getName());
         }
-        if (requestDTO.getSurname()!=null){
+        if (requestDTO.getSurname() != null) {
             employee.setSurname(requestDTO.getSurname());
         }
 
@@ -121,26 +121,25 @@ public class EmployeeService implements IEmployeeService {
     }
 
     private void checkEmployeePosition(Employee employee) {
-        Position positionFromDb = positionService.getPositionByTitle(employee.getPosition().getTitle());
-        // if position exists
-        if (positionFromDb!=null){
+         // if position exists
+        if (employee.getPosition() != null) {
+            Position positionFromDb = positionService.getPositionByTitle(employee.getPosition().getTitle());
             employee.setPosition(positionFromDb);
         }
     }
 
     private void checkEmployeeDepartment(Employee employee) {
-        Department departmentFromDb = departmentService.getDepartmentByName(employee.getDepartment().getName());
         // if department exists
-        if (departmentFromDb!=null){
+        if (employee.getDepartment() != null) {
+            Department departmentFromDb = departmentService.getDepartmentByName(employee.getDepartment().getName());
             employee.setDepartment(departmentFromDb);
         }
     }
 
 
     private void checkEmployeeAddress(Employee employee) {
-         // check for employee address in address DB
+        // check for employee address in address DB
         Optional<Address> employeeAddress = addressService.findAddress(employee.getAddress());
         employeeAddress.ifPresent(employee::setAddress);
     }
-
 }

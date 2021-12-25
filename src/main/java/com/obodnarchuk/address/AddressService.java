@@ -85,7 +85,10 @@ public class AddressService implements IAddressService {
 
     @Override
     public Optional<Address> findAddress(Address address) {
-        return addressRepository.checkForAddress(address.getCity(), address.getStreet(), address.getHouseNr());
+        if (address!=null){
+            return addressRepository.checkForAddress(address.getCity(), address.getStreet(), address.getHouseNr());
+        }
+        return Optional.empty();
     }
 
 
