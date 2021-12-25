@@ -5,11 +5,11 @@ import com.obodnarchuk.address.AddressResponseDTO;
 import com.obodnarchuk.department.DepartmentResponseDTO;
 import com.obodnarchuk.exceptions.RecordExistsException;
 import com.obodnarchuk.exceptions.RecordNotFoundException;
+import com.obodnarchuk.position.Position;
 import com.obodnarchuk.position.PositionResponseDTO;
+import com.obodnarchuk.position.PositionService;
 import org.springframework.stereotype.Service;
 
-import java.sql.SQLException;
-import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -18,16 +18,19 @@ public class EmployeeService implements IEmployeeService {
 
     final ObjectMapper mapper;
     final EmployeeRepository repository;
+    final PositionService positionService;
 
-    public EmployeeService(ObjectMapper mapper, EmployeeRepository repository) {
+    public EmployeeService(ObjectMapper mapper, EmployeeRepository repository, PositionService positionService) {
         this.mapper = mapper;
         this.repository = repository;
+        this.positionService = positionService;
     }
 
     @Override
     public EmployeeResponseDTO saveEmployee(EmployeeRequestDTO requestDTO) {
         Employee employee = mapper.convertValue(requestDTO, Employee.class);
         createEmployeeEmail(employee);
+        checkEmployeePosition(employee);
         try {
             repository.save(employee);
         } catch (Exception e) {
@@ -85,6 +88,14 @@ public class EmployeeService implements IEmployeeService {
         employee.setEmail(employee.getName().trim().toLowerCase()
                 + "." + employee.getSurname().trim().toLowerCase()
                 + "@company.com");
+    }
+
+    private void checkEmployeePosition(Employee employee) {
+        Position positionFromDb = positionService.getPositionByTitle(employee.getPosition().getTitle());
+        // if position exists
+        if (positionFromDb!=null){
+            employee.setPosition(positionFromDb);
+        }
     }
 
 }

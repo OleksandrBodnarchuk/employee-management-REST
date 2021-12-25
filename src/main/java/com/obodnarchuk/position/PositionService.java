@@ -51,7 +51,7 @@ public class PositionService implements IPositionService {
 
     @Override
     public PositionResponseDTO savePosition(Position request) {
-        Position position = positionRepository.findPositionByTitle(request.getTitle());
+        Position position = getPositionByTitle(request.getTitle());
         if (position != null) {
             throw new RecordExistsException(position.getId());
         } else {
@@ -59,6 +59,10 @@ public class PositionService implements IPositionService {
         }
 
         return mapToResponseDTO(position);
+    }
+
+    public Position getPositionByTitle(String title) {
+        return positionRepository.findPositionByTitle(title);
     }
 
     private Position findPositionOrThrow(long id) {

@@ -9,7 +9,7 @@ public class Position {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "Id")
     private long id;
-    @Column(name = "Nazwa", length = 50)
+    @Column(name = "Nazwa", length = 50,unique = true)
     private String title;
 
     public Position() {
