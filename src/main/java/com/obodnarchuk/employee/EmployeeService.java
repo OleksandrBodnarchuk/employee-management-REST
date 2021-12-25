@@ -3,9 +3,7 @@ package com.obodnarchuk.employee;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.obodnarchuk.address.AddressResponseDTO;
 import com.obodnarchuk.address.AddressService;
-import com.obodnarchuk.department.DepartmentRequestDTO;
-import com.obodnarchuk.department.DepartmentResponseDTO;
-import com.obodnarchuk.department.DepartmentService;
+import com.obodnarchuk.department.*;
 import com.obodnarchuk.exceptions.RecordExistsException;
 import com.obodnarchuk.position.Position;
 import com.obodnarchuk.position.PositionResponseDTO;
@@ -38,15 +36,15 @@ public class EmployeeService implements IEmployeeService {
     public EmployeeResponseDTO saveEmployee(EmployeeRequestDTO requestDTO) {
         Employee employee = mapper.convertValue(requestDTO, Employee.class);
         createEmployeeEmail(employee);
-        checkEmployeePosition(employee,positionService);
-        checkEmployeeDepartment(employee,departmentService);
-        checkEmployeeAddress(employee,addressService);
+        checkEmployeePosition(employee, positionService);
+        checkEmployeeDepartment(employee, departmentService);
+        checkEmployeeAddress(employee, addressService);
         try {
             repository.save(employee);
         } catch (Exception e) {
             throw new RecordExistsException(employee.getEmail());
         }
-        return mapToResponseDTO(employee,mapper);
+        return mapToResponseDTO(employee, mapper);
     }
 
     @Override
@@ -64,7 +62,7 @@ public class EmployeeService implements IEmployeeService {
     @Override
     public EmployeeResponseDTO getEmployeeById(long id) {
         Employee employee = findEmployeeOrThrow(id, repository);
-        return mapToResponseDTO(employee,mapper);
+        return mapToResponseDTO(employee, mapper);
     }
 
     @Override
@@ -91,7 +89,7 @@ public class EmployeeService implements IEmployeeService {
         checkDtoValuesAndMap(requestDTO, employee);
         createEmployeeEmail(employee);
         repository.save(employee);
-        return mapToResponseDTO(employee,mapper);
+        return mapToResponseDTO(employee, mapper);
     }
 
     @Override
@@ -99,14 +97,23 @@ public class EmployeeService implements IEmployeeService {
         Employee employeeFromDB = findEmployeeOrThrow(id, repository);
         // check for duplicates in DB
         PositionResponseDTO positionResponseDTO =
-                checkAndUpdatePosition(positionRequestDTO,employeeFromDB, positionService, mapper);
+                checkAndUpdatePosition(positionRequestDTO, employeeFromDB, positionService, mapper);
         updateEmployee(id, mapper.convertValue(employeeFromDB, EmployeeRequestDTO.class));
         return positionResponseDTO;
     }
 
     @Override
-    public DepartmentResponseDTO updateDepartment(long id, DepartmentRequestDTO departmentRequestDTO) {
-        return null;
+    public DepartmentResponseDTO updateDepartment(long employeeId, DepartmentRequestDTO departmentRequestDTO) {
+        // find department in DB - has ID
+        Department departmentFromDB = departmentService.getDepartmentByName(departmentRequestDTO.getName());
+        if (departmentFromDB == null) {
+            // save new department into DB if not exists
+            DepartmentResponseDTO departmentResponseDTO = departmentService.saveDepartment(departmentRequestDTO);
+            departmentFromDB = mapper.convertValue(departmentResponseDTO,Department.class);
+        }
+        repository.updateEmployeeDepartment(employeeId, departmentFromDB);
+
+        return DepartmentUtil.mapToResponseDTO(departmentFromDB,mapper);
     }
 
 }
