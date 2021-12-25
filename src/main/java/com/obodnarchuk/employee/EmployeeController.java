@@ -1,5 +1,7 @@
 package com.obodnarchuk.employee;
 
+import com.obodnarchuk.department.DepartmentRequestDTO;
+import com.obodnarchuk.department.DepartmentResponseDTO;
 import com.obodnarchuk.position.Position;
 import com.obodnarchuk.position.PositionResponseDTO;
 import com.obodnarchuk.position.PositionService;
@@ -71,6 +73,13 @@ public class EmployeeController {
     public void getEmployeeDepartment(@PathVariable("id") long id, HttpServletResponse response) throws IOException {
         response.sendRedirect("/" + id + "/dzialy/");
     }
+
+    @PutMapping("/{id}/dzialy")
+    public ResponseEntity<DepartmentResponseDTO> updateEmployeeDepartment(@PathVariable("id") long id, @RequestBody DepartmentRequestDTO departmentRequestDTO) {
+        DepartmentResponseDTO departmentResponseDTO =  service.updateDepartment(id,departmentRequestDTO);
+        return new ResponseEntity<>(departmentResponseDTO,HttpStatus.OK);
+    }
+
 
     // Adresy
     @GetMapping("/{id}/adresy")

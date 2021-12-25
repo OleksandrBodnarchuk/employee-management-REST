@@ -31,51 +31,44 @@ public class DepartmentService implements IDepartmentService {
             repository.save(department);
         }
 
-        return mapToResponseDTO(department);
+        return DepartmentUtil.mapToResponseDTO(department,mapper);
     }
 
     @Override
     public List<DepartmentResponseDTO> getAllDepartments() {
         List<Department> departmentsFromDB = repository.findAll();
-        return departmentsFromDB.stream().map(this::mapToResponseDTO).collect(Collectors.toList());    }
+        return departmentsFromDB.stream().map(e->DepartmentUtil.mapToResponseDTO(e,mapper)).collect(Collectors.toList());    }
 
     @Override
     public void deleteDepartmentById(long id) {
-        Department department = findDepartmentOrThrow(id);
+        Department department = DepartmentUtil.findDepartmentOrThrow(id,repository);
         repository.delete(department);
     }
 
-    @Override
+    @Override // TODO: throws error
     public DepartmentResponseDTO updateDepartment(long id, DepartmentRequestDTO requestDTO) {
         Department department;
         try {
-            department = findDepartmentOrThrow(id);
+            department = DepartmentUtil.findDepartmentOrThrow(id,repository);
             department.setName(requestDTO.getName());
             if (requestDTO.getAddress()!=null){
                 department.setAddress(requestDTO.getAddress());
             }
         } catch (RecordNotFoundException e) {
-            department=mapper.convertValue(requestDTO,Department.class);
+            department= DepartmentUtil.mapToEntity(requestDTO,mapper);
         }
         repository.save(department);
-        return mapToResponseDTO(department);
+        return DepartmentUtil.mapToResponseDTO(department,mapper);
     }
 
     @Override
     public DepartmentResponseDTO getDepartmentById(long id) {
-        return mapToResponseDTO(findDepartmentOrThrow(id));
+        Department department = DepartmentUtil.findDepartmentOrThrow(id,repository);
+        return DepartmentUtil.mapToResponseDTO(department,mapper);
     }
 
     @Override
     public Department getDepartmentByName(String name) {
         return repository.findDepartmentByTitle(name);
-    }
-
-    private Department findDepartmentOrThrow(long id) {
-        return repository.findById(id).orElseThrow(() -> new RecordNotFoundException(id));
-    }
-
-    private DepartmentResponseDTO mapToResponseDTO(Department department) {
-        return mapper.convertValue(department, DepartmentResponseDTO.class);
     }
 }

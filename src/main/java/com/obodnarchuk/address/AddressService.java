@@ -24,19 +24,19 @@ public class AddressService implements IAddressService {
     public AddressResponseDTO saveAddress(AddressRequestDTO requestDTO) {
         AddressResponseDTO responseDTO;
         try {
-            checkNewAddressOrThrow(requestDTO);
+            AddressUtil.checkNewAddressOrThrow(requestDTO,addressRepository);
             throw new RecordExistsException(requestDTO.toString());
         } catch (RecordNotFoundException e) {
-            Address address = mapRequestToAddress(requestDTO);
+            Address address = AddressUtil.mapRequestToAddress(requestDTO,mapper);
             addressRepository.save(address);
-            responseDTO = mapToResponseDTO(address);
+            responseDTO = AddressUtil.mapToResponseDTO(address,mapper);
         }
         return responseDTO;
     }
 
     @Override
     public void deleteAddressById(long id) {
-        Address address = findAddressByIdOrThrow(id);
+        Address address = AddressUtil.findAddressByIdOrThrow(id,addressRepository);
         addressRepository.delete(address);
     }
 
@@ -44,43 +44,25 @@ public class AddressService implements IAddressService {
     public AddressResponseDTO updateAddress(long id, AddressRequestDTO requestDTO) {
         Address address;
         try {
-            address = findAddressByIdOrThrow(id);
-            checkDTOValuesAndMap(requestDTO, address);
+            address = AddressUtil.findAddressByIdOrThrow(id,addressRepository);
+            AddressUtil.checkDTOValuesAndMap(requestDTO, address);
         } catch (RecordNotFoundException e) {
-            address = mapRequestToAddress(requestDTO);
+            address = AddressUtil.mapRequestToAddress(requestDTO,mapper);
         }
         addressRepository.save(address);
-        return mapToResponseDTO(address);
-    }
-
-    private void checkDTOValuesAndMap(AddressRequestDTO requestDTO, Address address) {
-        if (requestDTO.getCity() != null) {
-            address.setCity(requestDTO.getCity());
-        }
-
-        if (requestDTO.getHouseNr() != null) {
-            address.setHouseNr(requestDTO.getHouseNr());
-        }
-
-        if (requestDTO.getStreet() != null) {
-            address.setStreet(requestDTO.getStreet());
-        }
-
-        if (requestDTO.getZipCode() != null) {
-            address.setZipCode(requestDTO.getZipCode());
-        }
+        return AddressUtil.mapToResponseDTO(address,mapper);
     }
 
     @Override
     public List<AddressResponseDTO> getAllAddresses() {
         List<Address> addressesFromDB = addressRepository.findAll();
-        return addressesFromDB.stream().map(this::mapToResponseDTO).collect(Collectors.toList());
+        return addressesFromDB.stream().map(e->AddressUtil.mapToResponseDTO(e,mapper)).collect(Collectors.toList());
     }
 
     @Override
     public AddressResponseDTO getAddressById(long id) {
-        Address address = findAddressByIdOrThrow(id);
-        return mapToResponseDTO(address);
+        Address address = AddressUtil.findAddressByIdOrThrow(id,addressRepository);
+        return AddressUtil.mapToResponseDTO(address,mapper);
     }
 
     @Override
@@ -89,23 +71,5 @@ public class AddressService implements IAddressService {
             return addressRepository.checkForAddress(address.getCity(), address.getStreet(), address.getHouseNr());
         }
         return Optional.empty();
-    }
-
-
-    private Address findAddressByIdOrThrow(long id) {
-        return addressRepository.findById(id).orElseThrow(() -> new RecordNotFoundException(id));
-    }
-
-    private AddressResponseDTO mapToResponseDTO(Address address) {
-        return mapper.convertValue(address, AddressResponseDTO.class);
-    }
-
-    private void checkNewAddressOrThrow(AddressRequestDTO requestDTO) {
-        addressRepository.checkForAddress(requestDTO.getCity(), requestDTO.getStreet(), requestDTO.getHouseNr())
-                .orElseThrow(() -> new RecordNotFoundException(requestDTO.toString()));
-    }
-
-    private Address mapRequestToAddress(AddressRequestDTO requestDTO) {
-        return mapper.convertValue(requestDTO, Address.class);
     }
 }

@@ -8,6 +8,8 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import static com.obodnarchuk.position.PositionUtil.*;
+
 @Service
 public class PositionService implements IPositionService {
 
@@ -21,7 +23,7 @@ public class PositionService implements IPositionService {
 
     @Override
     public void deletePositionById(long id) {
-        Position position = findPositionOrThrow(id);
+        Position position = findPositionOrThrow(id,positionRepository);
         positionRepository.delete(position);
     }
 
@@ -29,47 +31,40 @@ public class PositionService implements IPositionService {
     public PositionResponseDTO updatePosition(long id, Position requestDTO) {
         Position position;
         try {
-            position = findPositionOrThrow(id);
+            position = findPositionOrThrow(id,positionRepository);
             position.setTitle(requestDTO.getTitle());
         } catch (RecordNotFoundException e) {
             position=requestDTO;
         }
         positionRepository.save(position);
-        return mapToResponseDTO(position);
+        return mapToResponseDTO(position,mapper);
     }
 
     @Override
     public List<PositionResponseDTO> getAllPositions() {
         List<Position> positionsFromDB = positionRepository.findAll();
-        return positionsFromDB.stream().map(this::mapToResponseDTO).collect(Collectors.toList());
+        return positionsFromDB.stream().map(e->mapToResponseDTO(e,mapper)).collect(Collectors.toList());
     }
 
     @Override
     public PositionResponseDTO getPositionById(long id) {
-        return mapToResponseDTO(findPositionOrThrow(id));
+        return mapToResponseDTO(findPositionOrThrow(id,positionRepository),mapper);
     }
 
     @Override
     public PositionResponseDTO savePosition(Position request) {
-        Position position = getPositionByTitle(request.getTitle());
+        Position position = getPositionByTitle(request.getTitle(),positionRepository);
         if (position != null) {
             throw new RecordExistsException(position.getId());
         } else {
             positionRepository.save(position = new Position(request.getTitle()));
         }
 
-        return mapToResponseDTO(position);
+        return mapToResponseDTO(position,mapper);
     }
 
-    public Position getPositionByTitle(String title) {
-        return positionRepository.findPositionByTitle(title);
-    }
 
-    private Position findPositionOrThrow(long id) {
-        return positionRepository.findById(id).orElseThrow(() -> new RecordNotFoundException(id));
-    }
-
-    private PositionResponseDTO mapToResponseDTO(Position position) {
-        return mapper.convertValue(position, PositionResponseDTO.class);
+    public Position getByTitle(String title) {
+        return getPositionByTitle(title,positionRepository);
     }
 }

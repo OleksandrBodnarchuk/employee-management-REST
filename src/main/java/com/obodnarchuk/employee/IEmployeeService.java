@@ -1,6 +1,7 @@
 package com.obodnarchuk.employee;
 
 import com.obodnarchuk.address.AddressResponseDTO;
+import com.obodnarchuk.department.DepartmentRequestDTO;
 import com.obodnarchuk.department.DepartmentResponseDTO;
 import com.obodnarchuk.position.Position;
 import com.obodnarchuk.position.PositionResponseDTO;
@@ -25,4 +26,6 @@ public interface IEmployeeService {
     EmployeeResponseDTO updateEmployee(long id, EmployeeRequestDTO requestDTO);
 
     PositionResponseDTO updatePosition(long id, Position positionRequestDTO);
+
+    DepartmentResponseDTO updateDepartment(long id, DepartmentRequestDTO departmentRequestDTO);
 }
