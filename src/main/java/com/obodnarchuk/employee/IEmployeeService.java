@@ -8,6 +8,7 @@ import com.obodnarchuk.position.Position;
 import com.obodnarchuk.position.PositionResponseDTO;
 
 import java.util.List;
+import java.util.Set;
 
 public interface IEmployeeService {
     EmployeeResponseDTO saveEmployee(EmployeeRequestDTO employee);
@@ -32,5 +33,5 @@ public interface IEmployeeService {
 
     AddressResponseDTO updateAddress(long id, AddressRequestDTO addressRequestDTO);
 
-    List<EmployeeSalaryDbDTO> getAverageSalary();
+    Set<EmployeeSalaryDbDTO> getAverageSalary();
 }

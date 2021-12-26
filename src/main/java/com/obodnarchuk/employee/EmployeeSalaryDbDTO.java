@@ -12,9 +12,9 @@ public class EmployeeSalaryDbDTO {
     @JsonProperty("staz_pracy")
     private int seniority;
     @JsonProperty("srednie_wynagrodzenie")
-    private int salary;
+    private double salary;
 
-    public EmployeeSalaryDbDTO(String position, int seniority, int salary) {
+    public EmployeeSalaryDbDTO(String position, int seniority, double salary) {
         this.position = position;
         this.salary = salary;
         setSeniority(seniority);
@@ -33,14 +33,14 @@ public class EmployeeSalaryDbDTO {
     }
 
     private void setSeniority(int seniority) {
-        this.seniority = LocalDate.now().getYear() - seniority + 1;
+        this.seniority = LocalDate.now().getYear() - seniority;
     }
 
-    public int getSalary() {
+    public double getSalary() {
         return salary;
     }
 
-    public void setSalary(int salary) {
+    public void setSalary(double salary) {
         this.salary = salary;
     }
 }

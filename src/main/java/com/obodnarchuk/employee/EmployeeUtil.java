@@ -10,7 +10,11 @@ import com.obodnarchuk.position.Position;
 import com.obodnarchuk.position.PositionResponseDTO;
 import com.obodnarchuk.position.PositionService;
 
+import java.time.LocalDate;
+import java.util.HashSet;
+import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 public class EmployeeUtil {
 
@@ -79,5 +83,16 @@ public class EmployeeUtil {
         // check for employee address in address DB
         Optional<Address> employeeAddress = addressService.findAddress(employee.getAddress());
         employeeAddress.ifPresent(employee::setAddress);
+    }
+
+    protected static Set<EmployeeSalaryDbDTO> returnAverageSalary(List<EmployeeSalaryDbDTO> fromDB, EmployeeRepository repository) {
+        Set<EmployeeSalaryDbDTO> finalResultSet = new HashSet<>();
+        for (EmployeeSalaryDbDTO employeeSalaryDbDTO : fromDB) {
+            int seniority = LocalDate.now().getYear() - employeeSalaryDbDTO.getSeniority();
+            double averageSalary = repository.getAverageSalaryPerSeniority(employeeSalaryDbDTO.getPosition(), seniority);
+            employeeSalaryDbDTO.setSalary(averageSalary);
+            finalResultSet.add(employeeSalaryDbDTO);
+        }
+        return finalResultSet;
     }
 }

@@ -132,9 +132,8 @@ public class EmployeeService implements IEmployeeService {
     }
 
     @Override
-    public List<EmployeeSalaryDbDTO> getAverageSalary() {
+    public Set<EmployeeSalaryDbDTO> getAverageSalary() {
         List<EmployeeSalaryDbDTO> fromDB = repository.getPositionBySeniority();
-        return fromDB;
+        return returnAverageSalary(fromDB, repository);
     }
-
 }

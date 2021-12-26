@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.List;
+import java.util.Set;
 
 @RestController
 @RequestMapping("pracownicy")
@@ -60,8 +61,8 @@ public class EmployeeController {
 
     // Zarobki
     @GetMapping("/zarobki")
-    public ResponseEntity<List<EmployeeSalaryDbDTO>> getAverageSalaries(){
-        List<EmployeeSalaryDbDTO> responseDTO = service.getAverageSalary();
+    public ResponseEntity<Set<EmployeeSalaryDbDTO>> getAverageSalaries(){
+        Set<EmployeeSalaryDbDTO> responseDTO = service.getAverageSalary();
         return new ResponseEntity<>(responseDTO,HttpStatus.OK);
     }
 

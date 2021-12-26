@@ -25,9 +25,12 @@ public interface EmployeeRepository extends JpaRepository<Employee, Long> {
 
 
     @Query("SELECT new com.obodnarchuk.employee.EmployeeSalaryDbDTO(" +
-            "e.position.title, year(e.startDate),e.salary) " +
+            "e.position.title, year(e.startDate),(e.salary*0.1)) " +
             "FROM Employee e")
     List<EmployeeSalaryDbDTO> getPositionBySeniority();
+
+    @Query("select avg(e.salary) from Employee  e where e.position.title= :positionTitle and year(e.startDate)=:year")
+    double getAverageSalaryPerSeniority(@Param("positionTitle")String positionTitle,int year);
 }
 
 //    select stanowiska.nazwa as 'department',
