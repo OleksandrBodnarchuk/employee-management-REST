@@ -24,19 +24,20 @@ public class AddressService implements IAddressService {
     public AddressResponseDTO saveAddress(AddressRequestDTO requestDTO) {
         AddressResponseDTO responseDTO;
         try {
-            AddressUtil.checkNewAddressOrThrow(requestDTO,addressRepository);
+            AddressUtil.checkNewAddressOrThrow(requestDTO, addressRepository);
             throw new RecordExistsException(requestDTO.toString());
         } catch (RecordNotFoundException e) {
-            Address address = AddressUtil.mapRequestToAddress(requestDTO,mapper);
+            Address address = AddressUtil.mapRequestToAddress(requestDTO, mapper);
             addressRepository.save(address);
-            responseDTO = AddressUtil.mapToResponseDTO(address,mapper);
+
+            responseDTO = AddressUtil.mapToResponseDTO(address, mapper);
         }
         return responseDTO;
     }
 
     @Override
     public void deleteAddressById(long id) {
-        Address address = AddressUtil.findAddressByIdOrThrow(id,addressRepository);
+        Address address = AddressUtil.findAddressByIdOrThrow(id, addressRepository);
         addressRepository.delete(address);
     }
 
@@ -44,30 +45,30 @@ public class AddressService implements IAddressService {
     public AddressResponseDTO updateAddress(long id, AddressRequestDTO requestDTO) {
         Address address;
         try {
-            address = AddressUtil.findAddressByIdOrThrow(id,addressRepository);
+            address = AddressUtil.findAddressByIdOrThrow(id, addressRepository);
             AddressUtil.checkDTOValuesAndMap(requestDTO, address);
         } catch (RecordNotFoundException e) {
-            address = AddressUtil.mapRequestToAddress(requestDTO,mapper);
+            address = AddressUtil.mapRequestToAddress(requestDTO, mapper);
         }
         addressRepository.save(address);
-        return AddressUtil.mapToResponseDTO(address,mapper);
+        return AddressUtil.mapToResponseDTO(address, mapper);
     }
 
     @Override
     public List<AddressResponseDTO> getAllAddresses() {
         List<Address> addressesFromDB = addressRepository.findAll();
-        return addressesFromDB.stream().map(e->AddressUtil.mapToResponseDTO(e,mapper)).collect(Collectors.toList());
+        return addressesFromDB.stream().map(e -> AddressUtil.mapToResponseDTO(e, mapper)).collect(Collectors.toList());
     }
 
     @Override
     public AddressResponseDTO getAddressById(long id) {
-        Address address = AddressUtil.findAddressByIdOrThrow(id,addressRepository);
-        return AddressUtil.mapToResponseDTO(address,mapper);
+        Address address = AddressUtil.findAddressByIdOrThrow(id, addressRepository);
+        return AddressUtil.mapToResponseDTO(address, mapper);
     }
 
     @Override
     public Optional<Address> findAddress(Address address) {
-        if (address!=null){
+        if (address != null) {
             return addressRepository.checkForAddress(address.getCity(), address.getStreet(), address.getHouseNr());
         }
         return Optional.empty();

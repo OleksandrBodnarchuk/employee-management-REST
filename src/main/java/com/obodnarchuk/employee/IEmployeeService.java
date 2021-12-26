@@ -31,4 +31,6 @@ public interface IEmployeeService {
     DepartmentResponseDTO updateDepartment(long id, DepartmentRequestDTO departmentRequestDTO);
 
     AddressResponseDTO updateAddress(long id, AddressRequestDTO addressRequestDTO);
+
+    List<EmployeeSalaryDbDTO> getAverageSalary();
 }

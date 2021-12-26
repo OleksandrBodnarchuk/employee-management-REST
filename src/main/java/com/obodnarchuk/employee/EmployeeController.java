@@ -58,6 +58,13 @@ public class EmployeeController {
         return HttpStatus.OK;
     }
 
+    // Zarobki
+    @GetMapping("/zarobki")
+    public ResponseEntity<List<EmployeeSalaryDbDTO>> getAverageSalaries(){
+        List<EmployeeSalaryDbDTO> responseDTO = service.getAverageSalary();
+        return new ResponseEntity<>(responseDTO,HttpStatus.OK);
+    }
+
     // Stanowiska
     @GetMapping("/{id}/stanowiska")
     public void getEmployeePosition(@PathVariable("id") long id, HttpServletResponse response) throws IOException {

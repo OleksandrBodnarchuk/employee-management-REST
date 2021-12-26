@@ -9,8 +9,9 @@ import com.obodnarchuk.position.PositionResponseDTO;
 import com.obodnarchuk.position.PositionService;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-import java.util.Optional;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import java.util.*;
 import java.util.stream.Collectors;
 
 import static com.obodnarchuk.employee.EmployeeUtil.*;
@@ -23,6 +24,8 @@ public class EmployeeService implements IEmployeeService {
     final PositionService positionService;
     final DepartmentService departmentService;
     final AddressService addressService;
+    @PersistenceContext
+    private EntityManager entityManager;
 
     public EmployeeService(ObjectMapper mapper, EmployeeRepository repository, PositionService positionService, DepartmentService departmentService, AddressService addressService) {
         this.mapper = mapper;
@@ -109,23 +112,29 @@ public class EmployeeService implements IEmployeeService {
         if (departmentFromDB == null) {
             // save new department into DB if not exists
             DepartmentResponseDTO departmentResponseDTO = departmentService.saveDepartment(departmentRequestDTO);
-            departmentFromDB = mapper.convertValue(departmentResponseDTO,Department.class);
+            departmentFromDB = mapper.convertValue(departmentResponseDTO, Department.class);
         }
         repository.updateEmployeeDepartment(employeeId, departmentFromDB);
 
-        return DepartmentUtil.mapToResponseDTO(departmentFromDB,mapper);
+        return DepartmentUtil.mapToResponseDTO(departmentFromDB, mapper);
     }
 
     @Override
     public AddressResponseDTO updateAddress(long employeeId, AddressRequestDTO addressRequestDTO) {
-        Address newAddress = AddressUtil.mapRequestToAddress(addressRequestDTO,mapper);
+        Address newAddress = AddressUtil.mapRequestToAddress(addressRequestDTO, mapper);
         Optional<Address> addressFromDB = addressService.findAddress(newAddress);
-        if (addressFromDB.isEmpty()){
+        if (addressFromDB.isEmpty()) {
             AddressResponseDTO addressResponseDTO = addressService.saveAddress(addressRequestDTO);
-            addressFromDB=Optional.of(mapper.convertValue(addressResponseDTO,Address.class));
+            addressFromDB = Optional.of(mapper.convertValue(addressResponseDTO, Address.class));
         }
-        repository.updateEmployeeAddress(employeeId,addressFromDB.get());
-        return AddressUtil.mapToResponse(addressFromDB.get(),mapper);
+        repository.updateEmployeeAddress(employeeId, addressFromDB.get());
+        return AddressUtil.mapToResponse(addressFromDB.get(), mapper);
+    }
+
+    @Override
+    public List<EmployeeSalaryDbDTO> getAverageSalary() {
+        List<EmployeeSalaryDbDTO> fromDB = repository.getPositionBySeniority();
+        return fromDB;
     }
 
 }
