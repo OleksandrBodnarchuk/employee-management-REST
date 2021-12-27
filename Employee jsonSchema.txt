@@ -1,0 +1,116 @@
+{
+    "$schema": "http://json-schema.org/draft-06/schema#",
+    "$ref": "#/definitions/Welcome",
+    "definitions": {
+        "Welcome": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+                "id": {
+                    "type": "integer"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "surname": {
+                    "type": "string"
+                },
+                "email": {
+                    "type": "string"
+                },
+                "phone": {
+                    "type": "integer"
+                },
+                "startDate": {
+                    "type": "string",
+                    "format": "date-time"
+                },
+                "salary": {
+                    "type": "integer"
+                },
+                "address": {
+                    "$ref": "#/definitions/Address"
+                },
+                "department": {
+                    "$ref": "#/definitions/Department"
+                },
+                "position": {
+                    "$ref": "#/definitions/Position"
+                }
+            },
+            "required": [
+                "address",
+                "department",
+                "email",
+                "id",
+                "name",
+                "phone",
+                "position",
+                "salary",
+                "startDate",
+                "surname"
+            ],
+            "title": "Welcome"
+        },
+        "Address": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+                "street": {
+                    "type": "string"
+                },
+                "houseNr": {
+                    "type": "string",
+                    "format": "integer"
+                },
+                "zipCode": {
+                    "type": "string"
+                },
+                "city": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "city",
+                "houseNr",
+                "street",
+                "zipCode"
+            ],
+            "title": "Address"
+        },
+        "Department": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+                "name": {
+                    "type": "string"
+                },
+                "address": {
+                    "$ref": "#/definitions/Address"
+                }
+            },
+            "required": [
+                "address",
+                "name"
+            ],
+            "title": "Department"
+        },
+        "Position": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+                "id": {
+                    "type": "integer"
+                },
+                "title": {
+                    "type": "string"
+                }
+            },
+            "required": [
+                "id",
+                "title"
+            ],
+            "title": "Position"
+        }
+    }
+}

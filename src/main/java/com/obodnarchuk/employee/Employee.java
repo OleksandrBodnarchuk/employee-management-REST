@@ -147,29 +147,4 @@ public class Employee {
         return Objects.hash(name, surname, email, phone, startDate, salary);
     }
 
-    @Override
-    public String toString() {
-        return id + "," +
-                name + "," +
-                surname + "," +
-                email + "," +
-                phone + "," +
-                salary + "," +
-                startDate + "," +
-                department.getId() + "," +
-                department.getName() + "," +
-                department.getAddress().getId() + "," +
-                department.getAddress().getStreet() + "," +
-                department.getAddress().getHouseNr() + "," +
-                department.getAddress().getCity() + "," +
-                department.getAddress().getZipCode() + "," +
-                address.getId() + "," +
-                address.getStreet() + "," +
-                address.getHouseNr() + "," +
-                address.getStreet() + "," +
-                address.getCity() + "," +
-                address.getZipCode() + "," +
-                position.getId() + "," +
-                position.getTitle();
-    }
 }
