@@ -5,6 +5,7 @@ import com.obodnarchuk.department.Department;
 import com.obodnarchuk.position.Position;
 
 import javax.persistence.*;
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.Objects;
 
@@ -15,35 +16,36 @@ public class Employee {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "Id")
     private long id;
-    @Column(name = "Imie",length = 30)
+    @Column(name = "Imie", length = 30)
     private String name;
-    @Column(name = "Nazwisko",length = 30)
+    @Column(name = "Nazwisko", length = 30)
     private String surname;
-    @Column(name = "Email",unique = true,length = 80)
+    @Column(name = "Email", unique = true, length = 80)
     private String email;
     @Column(name = "Telefon")
     private long phone;
     @Column(name = "Data_Zatrudnienia")
-    private Date startDate;
+    private LocalDate startDate;
     @Column(name = "Wynagrodzenie")
     private Integer salary;
 
-    @OneToOne(optional = true,cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
+    @OneToOne(optional = true, cascade = CascadeType.ALL)
     @JoinColumn(name = "Adres")
     private Address address;
 
-    @OneToOne(optional = true,cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
+    @OneToOne(optional = true, cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
     @JoinColumn(name = "Dzial")
     private Department department;
 
-    @OneToOne(optional = true,cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
+    @OneToOne(optional = true, cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
     @JoinColumn(name = "Stanowisko")
     private Position position;
 
-    public Employee(){
+    public Employee() {
 
     }
-    public Employee(String name, String surname, String email, Long phone, Date startDate, Integer salary) {
+
+    public Employee(String name, String surname, String email, Long phone, LocalDate startDate, Integer salary) {
         this.name = name;
         this.surname = surname;
         this.email = email;
@@ -88,11 +90,11 @@ public class Employee {
         this.phone = phone;
     }
 
-    public Date getStartDate() {
+    public LocalDate getStartDate() {
         return startDate;
     }
 
-    public void setStartDate(Date startDate) {
+    public void setStartDate(LocalDate startDate) {
         this.startDate = startDate;
     }
 
@@ -143,5 +145,31 @@ public class Employee {
     @Override
     public int hashCode() {
         return Objects.hash(name, surname, email, phone, startDate, salary);
+    }
+
+    @Override
+    public String toString() {
+        return id + "," +
+                name + "," +
+                surname + "," +
+                email + "," +
+                phone + "," +
+                salary + "," +
+                startDate + "," +
+                department.getId() + "," +
+                department.getName() + "," +
+                department.getAddress().getId() + "," +
+                department.getAddress().getStreet() + "," +
+                department.getAddress().getHouseNr() + "," +
+                department.getAddress().getCity() + "," +
+                department.getAddress().getZipCode() + "," +
+                address.getId() + "," +
+                address.getStreet() + "," +
+                address.getHouseNr() + "," +
+                address.getStreet() + "," +
+                address.getCity() + "," +
+                address.getZipCode() + "," +
+                position.getId() + "," +
+                position.getTitle();
     }
 }

@@ -10,13 +10,13 @@ public class Address {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "Id")
     private long id;
-    @Column(name = "Ulica",length = 30)
+    @Column(name = "Ulica", length = 30)
     private String street;
     @Column(name = "Nr_Domu", length = 10)
     private String houseNr;
-    @Column(name = "Kod_Pocztowy",length = 6)
+    @Column(name = "Kod_Pocztowy", length = 6)
     private String zipCode;
-    @Column(name = "Miasto",length = 30)
+    @Column(name = "Miasto", length = 30)
     private String city;
 
     public Address() {

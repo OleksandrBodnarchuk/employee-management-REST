@@ -1,12 +1,12 @@
 package com.obodnarchuk.department;
 
-import com.obodnarchuk.address.Address;
+import com.obodnarchuk.address.AddressDTO;
 
 public class DepartmentRequestDTO {
     private String name;
-    private Address address;
+    private AddressDTO address;
 
-    public DepartmentRequestDTO(String name, Address address) {
+    public DepartmentRequestDTO(String name, AddressDTO address) {
         this.name = name;
         this.address = address;
     }
@@ -19,11 +19,11 @@ public class DepartmentRequestDTO {
         this.name = name;
     }
 
-    public Address getAddress() {
+    public AddressDTO getAddress() {
         return address;
     }
 
-    public void setAddress(Address address) {
+    public void setAddress(AddressDTO address) {
         this.address = address;
     }
 }

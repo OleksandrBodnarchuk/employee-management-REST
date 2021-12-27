@@ -62,7 +62,7 @@ public class EmployeeUtil {
                 + "@company.com");
     }
 
-    protected static void checkEmployeePosition(Employee employee,PositionService positionService) {
+    protected static void checkEmployeePosition(Employee employee, PositionService positionService) {
         // if position exists
         if (employee.getPosition() != null) {
             Position positionFromDb = positionService.getByTitle(employee.getPosition().getTitle());

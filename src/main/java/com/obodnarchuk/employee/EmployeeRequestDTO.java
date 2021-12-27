@@ -1,24 +1,23 @@
 package com.obodnarchuk.employee;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.obodnarchuk.address.AddressDTO;
-import com.obodnarchuk.department.DepartmentDTO;
+import com.obodnarchuk.department.DepartmentRequestDTO;
 import com.obodnarchuk.position.Position;
 
-import java.util.Date;
+import java.time.LocalDate;
 
 public class EmployeeRequestDTO {
     private String name;
     private String surname;
     private long phone;
-    private Date startDate;
+    private LocalDate startDate;
     private Integer salary;
     private AddressDTO address;
-    private DepartmentDTO department;
+    private DepartmentRequestDTO department;
     private Position position;
 
-    public EmployeeRequestDTO(String name, String surname, long phone, Date startDate, Integer salary,
-                              AddressDTO address, DepartmentDTO department, Position position) {
+    public EmployeeRequestDTO(String name, String surname, long phone, LocalDate startDate, Integer salary,
+                              AddressDTO address, DepartmentRequestDTO department, Position position) {
         this.name = name;
         this.surname = surname;
         this.phone = phone;
@@ -53,11 +52,11 @@ public class EmployeeRequestDTO {
         this.phone = phone;
     }
 
-    public Date getStartDate() {
+    public LocalDate getStartDate() {
         return startDate;
     }
 
-    public void setStartDate(Date startDate) {
+    public void setStartDate(LocalDate startDate) {
         this.startDate = startDate;
     }
 
@@ -77,11 +76,11 @@ public class EmployeeRequestDTO {
         this.address = address;
     }
 
-    public DepartmentDTO getDepartment() {
+    public DepartmentRequestDTO getDepartment() {
         return department;
     }
 
-    public void setDepartment(DepartmentDTO department) {
+    public void setDepartment(DepartmentRequestDTO department) {
         this.department = department;
     }
 

@@ -3,15 +3,29 @@ package com.obodnarchuk.employee;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.obodnarchuk.address.*;
 import com.obodnarchuk.department.*;
+import com.obodnarchuk.exceptions.CSVFileError;
 import com.obodnarchuk.exceptions.RecordExistsException;
 import com.obodnarchuk.position.Position;
 import com.obodnarchuk.position.PositionResponseDTO;
 import com.obodnarchuk.position.PositionService;
+import org.apache.commons.csv.CSVFormat;
+import org.apache.commons.csv.CSVPrinter;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import java.util.*;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.Writer;
+import java.nio.charset.StandardCharsets;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 import static com.obodnarchuk.employee.EmployeeUtil.*;
@@ -42,6 +56,12 @@ public class EmployeeService implements IEmployeeService {
         checkEmployeePosition(employee, positionService);
         checkEmployeeDepartment(employee, departmentService);
         checkEmployeeAddress(employee, addressService);
+        if (employee.getDepartment()==null){
+            employee.setDepartment(DepartmentUtil.mapToEntity(requestDTO.getDepartment(),mapper));
+        }
+        if (employee.getPosition()==null){
+            employee.setPosition(requestDTO.getPosition());
+        }
         try {
             repository.save(employee);
         } catch (Exception e) {
@@ -135,5 +155,83 @@ public class EmployeeService implements IEmployeeService {
     public Set<EmployeeSalaryDbDTO> getAverageSalary() {
         List<EmployeeSalaryDbDTO> fromDB = repository.getPositionBySeniority();
         return returnAverageSalary(fromDB, repository);
+    }
+
+    @Override
+    public List<EmployeeResponseDTO> saveFromCSV(MultipartFile file) {
+        List<EmployeeResponseDTO>results = new ArrayList<>();
+        try {
+            BufferedReader reader = new BufferedReader(
+                    new InputStreamReader(file.getInputStream(), StandardCharsets.ISO_8859_1));
+            while (reader.ready()) {
+                String line = reader.readLine();
+                String[] split = line.split(",");
+                if (split.length>0){
+                    String name = split[0];
+                    String surname = split[1];
+//                String email = split[2]; email creates on its own
+                    String phone = split[3];
+                    String salary = split[4];
+                    String stringDate = split[5];
+                    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM/dd/yyyy");
+                    LocalDate startDate = LocalDate.parse(stringDate, formatter);
+                    Position position = new Position(split[6]);
+                    String empAddressStreet = split[7];
+                    String empAddressHouse = split[8];
+                    String empAddressCity = split[9];
+                    String empAddressZipCode = split[10];
+                    AddressDTO empAddress = new AddressDTO(empAddressStreet, empAddressHouse, empAddressZipCode, empAddressCity);
+                    String deptName = split[11];
+                    String deptAddressStreet = split[12];
+                    String deptAddressHouse = split[13];
+                    String deptAddressCity = split[14];
+                    String deptAddressZipCode = split[15];
+                    AddressDTO deptAddress = new AddressDTO(deptAddressStreet,deptAddressHouse,deptAddressZipCode,deptAddressCity);
+                    DepartmentRequestDTO department = new DepartmentRequestDTO(deptName,deptAddress);
+                    EmployeeRequestDTO requestDTO = new EmployeeRequestDTO(
+                            name, surname, Long.parseLong(phone),
+                            startDate, Integer.parseInt(salary), empAddress,department,position);
+                    EmployeeResponseDTO responseDTO = saveEmployee(requestDTO);
+                    results.add(responseDTO);
+                }
+            }
+        } catch (IOException e) {
+            throw new CSVFileError("import");
+        }
+        return results;
+    }
+
+    public void writeEmployeesToCsv(Writer writer) {
+
+        List<Employee> employees = repository.findAll();
+        try (CSVPrinter csvPrinter = new CSVPrinter(writer, CSVFormat.DEFAULT)) {
+            for (Employee employee : employees) {
+                csvPrinter.printRecord(
+//                        employee.getId(),
+                        employee.getName(),
+                        employee.getSurname(),
+                        employee.getEmail(),
+                        employee.getPhone(),
+                        employee.getSalary(),
+                        employee.getStartDate(),
+//                        employee.getPosition().getId(),
+                        employee.getPosition().getTitle(),
+//                        employee.getAddress().getId(),
+                        employee.getAddress().getStreet(),
+                        employee.getAddress().getHouseNr(),
+                        employee.getAddress().getCity(),
+                        employee.getAddress().getZipCode(),
+//                        employee.getDepartment().getId(),
+                        employee.getDepartment().getName(),
+//                        employee.getDepartment().getAddress().getId(),
+                        employee.getDepartment().getAddress().getStreet(),
+                        employee.getDepartment().getAddress().getHouseNr(),
+                        employee.getDepartment().getAddress().getCity(),
+                        employee.getDepartment().getAddress().getZipCode()
+                );
+            }
+        } catch (IOException e) {
+            throw new CSVFileError("export");
+        }
     }
 }

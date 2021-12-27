@@ -6,6 +6,7 @@ import com.obodnarchuk.department.DepartmentRequestDTO;
 import com.obodnarchuk.department.DepartmentResponseDTO;
 import com.obodnarchuk.position.Position;
 import com.obodnarchuk.position.PositionResponseDTO;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 import java.util.Set;
@@ -34,4 +35,6 @@ public interface IEmployeeService {
     AddressResponseDTO updateAddress(long id, AddressRequestDTO addressRequestDTO);
 
     Set<EmployeeSalaryDbDTO> getAverageSalary();
+
+    List<EmployeeResponseDTO> saveFromCSV(MultipartFile file);
 }

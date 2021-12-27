@@ -1,6 +1,7 @@
 package com.obodnarchuk.department;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.obodnarchuk.address.Address;
 import com.obodnarchuk.exceptions.RecordExistsException;
 import com.obodnarchuk.exceptions.RecordNotFoundException;
 import org.springframework.stereotype.Service;
@@ -28,7 +29,8 @@ public class DepartmentService implements IDepartmentService {
         } else {
             department = new Department(requestDTO.getName());
             if (requestDTO.getAddress()!=null){
-                department.setAddress(requestDTO.getAddress());
+                Address address = mapper.convertValue(requestDTO.getAddress(),Address.class);
+                department.setAddress(address);
             }
             repository.save(department);
         }
@@ -54,7 +56,8 @@ public class DepartmentService implements IDepartmentService {
             department = findDepartmentOrThrow(id,repository);
             department.setName(requestDTO.getName());
             if (requestDTO.getAddress()!=null){
-                department.setAddress(requestDTO.getAddress());
+                Address address = mapper.convertValue(requestDTO.getAddress(),Address.class);
+                department.setAddress(address);
             }
         } catch (RecordNotFoundException e) {
             department= mapToEntity(requestDTO,mapper);

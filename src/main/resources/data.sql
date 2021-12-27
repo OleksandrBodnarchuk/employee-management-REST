@@ -50,7 +50,7 @@ insert into adresy (id, miasto, ulica, nr_domu, kod_pocztowy) values (35, 'La Me
 insert into adresy (id, miasto, ulica, nr_domu, kod_pocztowy) values (36, 'Motrico', 'Sloan', '56625', '2826');
 insert into adresy (id, miasto, ulica, nr_domu, kod_pocztowy) values (37, 'Fao Rai', 'Almo', '22', '43120');
 insert into adresy (id, miasto, ulica, nr_domu, kod_pocztowy) values (38, 'Khatanga', 'Springview', '9859', '64462');
-insert into adresy (id, miasto, ulica, nr_domu, kod_pocztowy) values (39, 'Bech', 'Onsgard', '2887', '-6231');
+insert into adresy (id, miasto, ulica, nr_domu, kod_pocztowy) values (39, 'Bech', 'Onsgard', '2887', '6231');
 insert into adresy (id, miasto, ulica, nr_domu, kod_pocztowy) values (40, 'Uppsala', 'Hagan', '579', '75135');
 insert into adresy (id, miasto, ulica, nr_domu, kod_pocztowy) values (41, 'Wanghu', 'Bartelt', '880', '03-890');
 insert into adresy (id, miasto, ulica, nr_domu, kod_pocztowy) values (42, 'Chengnan', 'Grasskamp', '4', '03-890');

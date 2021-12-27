@@ -1,7 +1,7 @@
 package com.obodnarchuk.employee;
 
 import com.obodnarchuk.address.AddressDTO;
-import com.obodnarchuk.department.DepartmentDTO;
+import com.obodnarchuk.department.DepartmentRequestDTO;
 import com.obodnarchuk.position.Position;
 
 import java.util.Date;
@@ -15,12 +15,12 @@ public class EmployeeResponseDTO {
     private Date startDate;
     private Integer salary;
     private AddressDTO address;
-    private DepartmentDTO department;
+    private DepartmentRequestDTO department;
     private Position position;
 
     public EmployeeResponseDTO(long id, String name, String surname, String email,
                                long phone, Date startDate, Integer salary, AddressDTO address,
-                               DepartmentDTO department, Position position) {
+                               DepartmentRequestDTO department, Position position) {
         this.id = id;
         this.name = name;
         this.surname = surname;
@@ -97,11 +97,11 @@ public class EmployeeResponseDTO {
         this.address = address;
     }
 
-    public DepartmentDTO getDepartment() {
+    public DepartmentRequestDTO getDepartment() {
         return department;
     }
 
-    public void setDepartment(DepartmentDTO department) {
+    public void setDepartment(DepartmentRequestDTO department) {
         this.department = department;
     }
 
