@@ -1,0 +1,368 @@
+openapi: "3.0.3"
+info:
+  title: "obodnarchuk API"
+  description: "obodnarchuk API"
+  version: "1.0.0"
+servers:
+  - url: "https://obodnarchuk"
+paths:
+  /adresy:
+    get:
+      summary: "GET adresy"
+      operationId: "getAllAddresss"
+      responses:
+        "200":
+          description: "OK"
+    post:
+      summary: "POST adresy"
+      operationId: "saveAddress"
+      responses:
+        "200":
+          description: "OK"
+  /adresy/{id}:
+    get:
+      summary: "GET adresy/{id}"
+      operationId: "getAllAddresss"
+      parameters:
+        - name: "id"
+          in: "path"
+          required: true
+          schema:
+            type: "number"
+            format: "int64"
+      responses:
+        "200":
+          description: "OK"
+    put:
+      summary: "PUT adresy/{id}"
+      operationId: "updateDepartment"
+      parameters:
+        - name: "id"
+          in: "path"
+          required: true
+          schema:
+            type: "number"
+            format: "int64"
+      responses:
+        "200":
+          description: "OK"
+    delete:
+      summary: "DELETE adresy/{id}"
+      operationId: "deleteDepartment"
+      parameters:
+        - name: "id"
+          in: "path"
+          required: true
+          schema:
+            type: "number"
+            format: "int64"
+      responses:
+        "200":
+          description: "OK"
+  /csv/export:
+    get:
+      summary: "GET csv/export"
+      operationId: "getAllEmployeesInCsv"
+      responses:
+        "200":
+          description: "OK"
+  /csv/import:
+    post:
+      summary: "POST csv/import"
+      operationId: "uploadCSVFile"
+      parameters:
+        - name: "file"
+          in: "query"
+          required: true
+      responses:
+        "200":
+          description: "OK"
+  /dzialy:
+    get:
+      summary: "GET dzialy"
+      operationId: "getAllDepartments"
+      responses:
+        "200":
+          description: "OK"
+    post:
+      summary: "POST dzialy"
+      operationId: "saveDepartment"
+      responses:
+        "200":
+          description: "OK"
+  /dzialy/{id}:
+    get:
+      summary: "GET dzialy/{id}"
+      operationId: "getOneDepartment"
+      parameters:
+        - name: "id"
+          in: "path"
+          required: true
+          schema:
+            type: "number"
+            format: "int64"
+      responses:
+        "200":
+          description: "OK"
+    put:
+      summary: "PUT dzialy/{id}"
+      operationId: "updateDepartment"
+      parameters:
+        - name: "id"
+          in: "path"
+          required: true
+          schema:
+            type: "number"
+            format: "int64"
+      responses:
+        "200":
+          description: "OK"
+    delete:
+      summary: "DELETE dzialy/{id}"
+      operationId: "deleteDepartment"
+      parameters:
+        - name: "id"
+          in: "path"
+          required: true
+          schema:
+            type: "number"
+            format: "int64"
+      responses:
+        "200":
+          description: "OK"
+  /pracownicy:
+    get:
+      summary: "GET pracownicy"
+      operationId: "getEmployee"
+      responses:
+        "200":
+          description: "OK"
+    post:
+      summary: "POST pracownicy"
+      operationId: "saveEmployee"
+      responses:
+        "200":
+          description: "OK"
+  /pracownicy/zarobki:
+    get:
+      summary: "GET pracownicy/zarobki"
+      operationId: "getAverageSalaries"
+      responses:
+        "200":
+          description: "OK"
+  /pracownicy/{id}:
+    get:
+      summary: "GET pracownicy/{id}"
+      operationId: "getOneEmployee"
+      parameters:
+        - name: "id"
+          in: "path"
+          required: true
+          schema:
+            type: "number"
+            format: "int64"
+      responses:
+        "200":
+          description: "OK"
+    put:
+      summary: "PUT pracownicy/{id}"
+      operationId: "updateEmployee"
+      parameters:
+        - name: "id"
+          in: "path"
+          required: true
+          schema:
+            type: "number"
+            format: "int64"
+      responses:
+        "200":
+          description: "OK"
+    delete:
+      summary: "DELETE pracownicy/{id}"
+      operationId: "deleteEmployee"
+      parameters:
+        - name: "id"
+          in: "path"
+          required: true
+          schema:
+            type: "number"
+            format: "int64"
+      responses:
+        "200":
+          description: "OK"
+  /pracownicy/{id}/adresy:
+    get:
+      summary: "GET pracownicy/{id}/adresy"
+      operationId: "getEmployeeAddress"
+      parameters:
+        - name: "id"
+          in: "path"
+          required: true
+          schema:
+            type: "number"
+            format: "int64"
+      responses:
+        "200":
+          description: "OK"
+    put:
+      summary: "PUT pracownicy/{id}/adresy"
+      operationId: "updateEmployeeDepartment"
+      parameters:
+        - name: "id"
+          in: "path"
+          required: true
+          schema:
+            type: "number"
+            format: "int64"
+      responses:
+        "200":
+          description: "OK"
+  /pracownicy/{id}/dzialy:
+    get:
+      summary: "GET pracownicy/{id}/dzialy"
+      operationId: "getEmployeeDepartment"
+      parameters:
+        - name: "id"
+          in: "path"
+          required: true
+          schema:
+            type: "number"
+            format: "int64"
+      responses:
+        "200":
+          description: "OK"
+    put:
+      summary: "PUT pracownicy/{id}/dzialy"
+      operationId: "updateEmployeeDepartment"
+      parameters:
+        - name: "id"
+          in: "path"
+          required: true
+          schema:
+            type: "number"
+            format: "int64"
+      responses:
+        "200":
+          description: "OK"
+  /pracownicy/{id}/stanowiska:
+    get:
+      summary: "GET pracownicy/{id}/stanowiska"
+      operationId: "getEmployeePosition"
+      parameters:
+        - name: "id"
+          in: "path"
+          required: true
+          schema:
+            type: "number"
+            format: "int64"
+      responses:
+        "200":
+          description: "OK"
+    put:
+      summary: "PUT pracownicy/{id}/stanowiska"
+      operationId: "updateEmployeePosition"
+      parameters:
+        - name: "id"
+          in: "path"
+          required: true
+          schema:
+            type: "number"
+            format: "int64"
+      responses:
+        "200":
+          description: "OK"
+  /stanowiska:
+    get:
+      summary: "GET stanowiska"
+      operationId: "getAllPositions"
+      responses:
+        "200":
+          description: "OK"
+    post:
+      summary: "POST stanowiska"
+      operationId: "savePosition"
+      responses:
+        "200":
+          description: "OK"
+  /stanowiska/{id}:
+    get:
+      summary: "GET stanowiska/{id}"
+      operationId: "getOnePosition"
+      parameters:
+        - name: "id"
+          in: "path"
+          required: true
+          schema:
+            type: "number"
+            format: "int64"
+      responses:
+        "200":
+          description: "OK"
+    put:
+      summary: "PUT stanowiska/{id}"
+      operationId: "updatePosition"
+      parameters:
+        - name: "id"
+          in: "path"
+          required: true
+          schema:
+            type: "number"
+            format: "int64"
+      responses:
+        "200":
+          description: "OK"
+    delete:
+      summary: "DELETE stanowiska/{id}"
+      operationId: "deletePosition"
+      parameters:
+        - name: "id"
+          in: "path"
+          required: true
+          schema:
+            type: "number"
+            format: "int64"
+      responses:
+        "200":
+          description: "OK"
+  /{id}/adresy:
+    get:
+      summary: "GET {id}/adresy"
+      operationId: "getAddress"
+      parameters:
+        - name: "id"
+          in: "path"
+          required: true
+          schema:
+            type: "number"
+            format: "int64"
+      responses:
+        "200":
+          description: "OK"
+  /{id}/dzialy:
+    get:
+      summary: "GET {id}/dzialy"
+      operationId: "getDepartment"
+      parameters:
+        - name: "id"
+          in: "path"
+          required: true
+          schema:
+            type: "number"
+            format: "int64"
+      responses:
+        "200":
+          description: "OK"
+  /{id}/stanowiska:
+    get:
+      summary: "GET {id}/stanowiska"
+      operationId: "getPosition"
+      parameters:
+        - name: "id"
+          in: "path"
+          required: true
+          schema:
+            type: "number"
+            format: "int64"
+      responses:
+        "200":
+          description: "OK"
